@@ -1,0 +1,36 @@
+{
+  "name": "timolawl-voting",
+  "version": "1.0.0",
+  "description": "Voting app, a Free Code Camp full-stack app.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/timolawl/fcc-voting.git"
+  },
+  "keywords": [
+    "node",
+    "express",
+    "javascript",
+    "mongodb",
+    "voting"
+  ],
+  "author": "Tim Chiang <timolawl@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/timolawl/fcc-voting/issues"
+  },
+  "homepage": "https://github.com/timolawl/fcc-voting#readme",
+  "dependencies": {
+    "express": "^4.13.4",
+    "mongodb": "^2.1.15",
+    "serve-favicon": "^2.3.0"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-sass": "^2.2.0"
+  }
+}

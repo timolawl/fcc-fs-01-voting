@@ -1,0 +1,127 @@
+$primary-color: #e64c66;
+$secondary-color: #2d3e50;
+$background-color: #aeaeae;
+$body-color: #1bbc9b;
+  
+//linear-gradient(45deg, #d96459, #f2ae72); flame-like
+
+@mixin title($font-size: 1.4rem, $margin-bottom: 0.2rem) {
+  font-weight: bold;
+  font-size: $font-size;
+  margin-bottom: $margin-bottom;
+}
+
+*, :before, :after {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  font-family: Montserrat;
+  font-size: 0.9rem;
+}
+
+body {
+  background: $body-color;
+}
+
+li:not(:last-child) {
+  padding-bottom: 0.5rem;
+}
+
+a {
+  &:link {
+    color: $secondary-color;
+  }
+  &:visited {
+    color: $secondary-color;
+  }
+  &:hover {
+    color: $primary-color;
+  }
+  &:active {
+    color: $primary-color;
+  }
+}
+
+p {
+  margin-left: 1.5rem;
+}
+
+.wrapper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 1.5rem;
+  border: 2px solid $secondary-color;
+  background: $background-color;
+}
+
+.image-search {
+  &--title {
+    font-family: 'Miltonian';
+    font-weight: initial;
+    color: $primary-color;
+    @include title(4rem, 0.5rem);
+    line-height: 80%;
+    text-align: center;
+  }
+  &--catdiv {
+    text-align: center;
+  }
+  &--cat {
+    display: block;
+    margin: 0 auto 0.25rem;
+    border: 2px solid $primary-color;
+  }
+  &--subtitle {
+    color: $primary-color;
+    @include title(1.1rem);
+    text-align: center;
+  }
+  &__userstories {
+    &--title {
+      @include title();
+      margin-top: 1rem;
+    }
+    &--text {
+      margin-left: 1.5rem;
+    }
+  }
+  &__exampleusage {
+    &--title {
+      @include title();
+      margin-top: 1rem;
+    }
+    &--text {
+      margin-left: 1.5rem;
+    }
+  }
+
+  &__exampleoutput {
+    &--title {
+      @include title();
+      margin-top: 1rem;
+    }
+    &--text {
+      margin-left: 1.5rem;
+    }
+  }
+  &__outcome {
+    &--title {
+      @include title();
+      margin-top: 1rem;
+    }
+    &--text {
+      margin-left: 1.5rem;
+    }
+  }
+
+  &--fadeout {
+    color: $secondary-color;
+  }
+}
+
+.footer {
+  text-align: center;
+  margin-top: 2rem;
+}
