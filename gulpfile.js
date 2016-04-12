@@ -6,19 +6,18 @@
 var browserSync = require('browser-sync').create();
 
 var gulp = require('gulp'),
-    gulpif = require('gulp-if'),
+//    gulpif = require('gulp-if'),
     sass = require('gulp-sass'),
     plumber = require('gulp-plumber'),
     autoprefixer = require('gulp-autoprefixer'),
     cssmin = require('gulp-cssmin');
 
-var production = process.env.NODE_ENV === 'production';
+// var production = process.env.NODE_ENV === 'production';
 
-gulp.task('browser-sync', function () {
+gulp.task('browserSync', function () {
     browserSync.init({
-        server: {
-            baseDir: './'
-        }
+        proxy: 'localhost:5000', // heroku local -> gulp watch -> localhost:3000
+        ghostMode: true // sync across all browsers
     });
 });
 
@@ -27,11 +26,12 @@ gulp.task('sass', function () {
         .pipe(plumber())
         .pipe(sass())
         .pipe(autoprefixer())
-        .pipe(gulpif(production, cssmin()))
+    //    .pipe(gulpif(production, cssmin()))
+        .pipe(cssmin())
         .pipe(gulp.dest('public/stylesheets/'))
         .pipe(browserSync.reload({
             stream: true
-        }))
+        }));
 });
 
 gulp.task('watch', ['browserSync', 'sass'],  function () {

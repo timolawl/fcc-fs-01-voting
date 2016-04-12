@@ -11,13 +11,6 @@
     "type": "git",
     "url": "git+ssh://git@github.com/timolawl/fcc-voting.git"
   },
-  "keywords": [
-    "node",
-    "express",
-    "javascript",
-    "mongodb",
-    "voting"
-  ],
   "author": "Tim Chiang <timolawl@gmail.com>",
   "license": "MIT",
   "bugs": {
@@ -26,10 +19,11 @@
   "homepage": "https://github.com/timolawl/fcc-voting#readme",
   "dependencies": {
     "express": "^4.13.4",
-    "mongodb": "^2.1.15",
+    "mongoose": "^4.4.12",
     "serve-favicon": "^2.3.0"
   },
   "devDependencies": {
+    "browser-sync": "^2.11.2",
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^3.1.0",
     "gulp-cssmin": "^0.1.7",
