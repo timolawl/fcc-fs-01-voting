@@ -19,7 +19,6 @@ module.exports = function(app, passport) {
 
 
     app.route('/signup')
-
        .get(function(req, res) {
             res.render('signup.ejs', { message: req.flash('signupMessage') });
         })
@@ -41,6 +40,18 @@ module.exports = function(app, passport) {
         req.logout(); // provided by passport.
         res.redirect('/');
     });
+
+    app.route('/reset')
+        .get(function(req, res) {
+            res.render('reset.ejs', { message: req.flash('resetMessage') });
+        })
+
+        .post(passport.authenticate('local-reset', {
+            successRedirect: '/reset',
+            failureRedirect: '/reset',
+            failureFlash: true
+        }));
+
 };
 
 function isLoggedIn(req, res, next) {

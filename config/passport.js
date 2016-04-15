@@ -99,4 +99,23 @@ module.exports = function(passport) {
             }
         });
     }));
+
+    passport.use('local-reset', new LocalStrategy({
+        usernameField: 'email',
+        passwordField: 'password',
+        passReqToCallback: true // this allows for other form fields to be accessed later.
+    },
+    function(req, email, password, done) {
+        User.findOne({ 'local.email': email }, function(err, user) {
+            if (err) return done(err);
+
+            if (!user)
+                return done(null, false, req.flash('resetMessage', 'Email has been sent!'));
+            else {
+                return done(null, false, req.flash('resetMessage', 'Email has been sent!'));
+                // actually send the email to the recipient.
+                // will likely need to use passport-strategy to solve this.
+            }
+        });
+    }));
 };
