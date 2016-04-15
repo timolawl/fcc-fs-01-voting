@@ -28,7 +28,7 @@ gulp.task('sass', function () {
         .pipe(autoprefixer())
     //    .pipe(gulpif(production, cssmin()))
         .pipe(cssmin())
-        .pipe(gulp.dest('public/stylesheets/'))
+        .pipe(gulp.dest('public/css/'))
         .pipe(browserSync.reload({
             stream: true
         }));
@@ -36,8 +36,9 @@ gulp.task('sass', function () {
 
 gulp.task('watch', ['browserSync', 'sass'],  function () {
     gulp.watch('app/stylesheets/*.scss', ['sass']);
-    gulp.watch('public/*.html', browserSync.reload);
-    gulp.watch('public/js/**/*.js', browserSync.reload);
+  //  gulp.watch('public/*.html', browserSync.reload);
+  //  gulp.watch('public/js/**/*.js', browserSync.reload);
+  //    gulp.watch('*', browserSync.reload);
 });
 
 gulp.task('default', ['watch', 'sass']);
