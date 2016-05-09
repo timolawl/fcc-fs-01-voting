@@ -17,7 +17,8 @@ var gulp = require('gulp'),
 gulp.task('browserSync', function () {
     browserSync.init({
         proxy: 'localhost:5000', // heroku local -> gulp watch -> localhost:3000
-        ghostMode: true // sync across all browsers
+        ghostMode: true, // sync across all browsers
+        port: 3000 // the port that browserSync uses
     });
 });
 

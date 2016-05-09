@@ -47,7 +47,7 @@ module.exports = function(app, passport) {
         })
 
         .post(passport.authenticate('local-reset', {
-            successRedirect: '/reset',
+            successRedirect: '/resetsent',
             failureRedirect: '/reset',
             failureFlash: true
         }));
