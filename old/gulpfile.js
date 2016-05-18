@@ -3,14 +3,14 @@
 // Reason for returning gulp.src:
 // http://stackoverflow.com/questions/21699146/gulp-js-task-return-on-src
 
-var browserSync = require('browser-sync').create();
+const browserSync = require('browser-sync').create();
 
-var gulp = require('gulp'),
-//    gulpif = require('gulp-if'),
-    sass = require('gulp-sass'),
-    plumber = require('gulp-plumber'),
-    autoprefixer = require('gulp-autoprefixer'),
-    cssmin = require('gulp-cssmin');
+const gulp = require('gulp');
+// const gulpif = require('gulp-if');
+const sass = require('gulp-sass');
+const plumber = require('gulp-plumber');
+const autoprefixer = require('gulp-autoprefixer');
+const cssmin = require('gulp-cssmin');
 
 // var production = process.env.NODE_ENV === 'production';
 
