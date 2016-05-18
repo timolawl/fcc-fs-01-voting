@@ -15,7 +15,18 @@ html(lang='en')
                     li.account-nav__list: a(href='#settings') Settings
                     li.account-nav__list: a(href='#logout') Log Out
     section.main-banner
-        img(src='https://placehold.it/250x250')
+        svg.vote(xmlns="http://www.w3.org/2000/svg", viewBox="0 0 288 96")
+            path.vote-0(d="M19 25h48v48H19z")
+            path.vote-1.checkmark(d="M19 25L43 49 85 7")
+            path.vote-0(d="M90 25h48v48H90z")
+            path.vote-2(d="M180 25v48")
+            path.vote-2(d="M156 25h48")
+            path.vote-2(d="M270 73h-48V25h48")
+            path.vote-3(d="M222 49h48")
+        .vote__subtitle A Free Code Camp Project
+        .vote__description Create custom polls with live results
+        form
+            button.vote__button(formaction='./signup') Sign Up
     section.poll
         .poll__element
         .poll__element

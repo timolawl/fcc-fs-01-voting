@@ -3,7 +3,7 @@
 module.exports = (app, passport) => {
     app.route('/')
        .get((req, res) => {
-            res.render('index', { pageTitle:'Hey' });
+            res.render('index', { pageTitle:'VOTE, a Free Code Camp Project' });
         });
 
     app.route('/test')
