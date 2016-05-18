@@ -76,7 +76,7 @@ a {
         width: 80%;
         // will need a min width once the details are filled in
         height: 50px;
-        background-color: gray;
+        border: 4px solid $primary-color;
         margin: 1rem auto;
     }
 }

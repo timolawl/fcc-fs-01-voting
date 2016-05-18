@@ -14,7 +14,7 @@ const cssmin = require('gulp-cssmin');
 
 // var production = process.env.NODE_ENV === 'production';
 
-gulp.task('browserSync', function () {
+gulp.task('browserSync', () => {
     browserSync.init({
         proxy: 'localhost:5000', // heroku local -> gulp watch -> localhost:3000
         ghostMode: true, // sync across all browsers
@@ -22,7 +22,7 @@ gulp.task('browserSync', function () {
     });
 });
 
-gulp.task('sass', function () {
+gulp.task('sass', () => {
     return gulp.src('./app/client/stylesheets/*.scss')
         .pipe(plumber())
         .pipe(sass())
@@ -35,7 +35,13 @@ gulp.task('sass', function () {
         }));
 });
 
-gulp.task('watch', ['browserSync', 'sass'],  function () {
+gulp.task('images', () => {
+    return gulp.src('./app/client/images/**/*.+(png|jpg|gif|svg)')
+        .pipe(imagemin())
+        .pipe(gulp.dest('./static/img'));
+});
+
+gulp.task('watch', ['browserSync', 'sass'], () => {
     gulp.watch('./app/client/stylesheets/*.scss', ['sass']);
   //  gulp.watch('public/*.html', browserSync.reload);
   //  gulp.watch('public/js/**/*.js', browserSync.reload);
