@@ -1,0 +1,88 @@
+$primary-color: lightblue;
+$secondary-color: gray;
+$highlight-color: orange;
+
+*, :before, :after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Montserrat;
+}
+
+a {
+    &:link {
+        text-decoration: none;
+        color: $secondary-color;
+    }
+    &:visited {
+        color: $secondary-color;
+    }
+    &:hover {
+        color: $highlight-color;
+    }
+    &:active {
+        color: $highlight-color;
+    }
+}
+
+.main-nav {
+    text-align: right;
+
+    &__list {
+        list-style-type: none;
+        display: inline-block;
+        position: relative;
+    }
+
+    a {
+        display: inline-block;
+        padding: 0.5rem 1rem;
+        width: 100%; // allow for drop down nav bg to reach edge of screen
+    }
+}
+
+.account-nav {
+    & > ul {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%; // allow for drop down nav bg to reach edge of screen
+        text-align: left;
+        display: none;
+    }
+
+    &__list {
+        list-style-type: none;
+        background-color: white;
+    }
+
+    &:hover {
+        & > ul {
+            display: block;
+        }
+    }
+}
+
+.main-banner {
+    background-color: $primary-color;
+    text-align: center;
+    img {
+        vertical-align: bottom;
+    }
+}
+
+.poll {
+    &__element {
+        width: 80%;
+        // will need a min width once the details are filled in
+        height: 50px;
+        background-color: gray;
+        margin: 1rem auto;
+    }
+}
+
+
+footer {
+    text-align: center;
+    margin-top: 2rem;
+}

@@ -23,20 +23,20 @@ gulp.task('browserSync', function () {
 });
 
 gulp.task('sass', function () {
-    return gulp.src('app/client/stylesheets/*.scss')
+    return gulp.src('./app/client/stylesheets/*.scss')
         .pipe(plumber())
         .pipe(sass())
         .pipe(autoprefixer())
     //    .pipe(gulpif(production, cssmin()))
         .pipe(cssmin())
-        .pipe(gulp.dest('static/css/'))
+        .pipe(gulp.dest('./static/css/'))
         .pipe(browserSync.reload({
             stream: true
         }));
 });
 
 gulp.task('watch', ['browserSync', 'sass'],  function () {
-    gulp.watch('app/client/stylesheets/*.scss', ['sass']);
+    gulp.watch('./app/client/stylesheets/*.scss', ['sass']);
   //  gulp.watch('public/*.html', browserSync.reload);
   //  gulp.watch('public/js/**/*.js', browserSync.reload);
   //    gulp.watch('*', browserSync.reload);
