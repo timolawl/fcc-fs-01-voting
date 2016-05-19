@@ -11,6 +11,7 @@ const sass = require('gulp-sass');
 const plumber = require('gulp-plumber');
 const autoprefixer = require('gulp-autoprefixer');
 const cssmin = require('gulp-cssmin');
+const imagemin = require('gulp-imagemin');
 
 // var production = process.env.NODE_ENV === 'production';
 
@@ -35,7 +36,7 @@ gulp.task('sass', () => {
         }));
 });
 
-gulp.task('images', () => {
+gulp.task('image', () => {
     return gulp.src('./app/client/images/**/*.+(png|jpg|gif|svg)')
         .pipe(imagemin())
         .pipe(gulp.dest('./static/img'));

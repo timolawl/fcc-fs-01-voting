@@ -1,6 +1,6 @@
 $primary-color: lightblue;
 $secondary-color: gray;
-$highlight-color: #f15a29; //orange;
+$highlight-color: #f15a29; // was orange
 
 *, :before, :after {
     box-sizing: border-box;
@@ -27,6 +27,7 @@ a {
 
 .main-nav {
     text-align: right;
+    margin-right: 1rem;
 
     &__list {
         list-style-type: none;
@@ -34,10 +35,17 @@ a {
         position: relative;
     }
 
-    a {
+    ul a {
         display: inline-block;
         padding: 1rem;
         width: 100%; // allow for drop down nav bg to reach edge of screen
+    }
+    .logo {
+        display: inline-block; // allows for setting height/width for anchor
+        float: left;
+        margin-left: 1rem;
+        height: 51px;
+        width: 51px;
     }
 }
 
@@ -78,17 +86,17 @@ a {
     margin-top: -0.5rem;
 
     &-0 {
-        stroke:#231f20;
-        stroke-width:12;
+        stroke: #231f20;
+        stroke-width: 12;
     }
     &-0, &-1 {
-        fill:none;
-        stroke-miterlimit:10;
+        fill: none;
+        stroke-miterlimit: 10;
     }
 
     &-1 { // checkmark
         stroke:  #f15a29;
-        stroke-width:12;
+        stroke-width: 12;
 
         stroke-dasharray: 500;
         stroke-dashoffset: 500;
@@ -103,10 +111,10 @@ a {
     }
 
     &-2, &-3 {
-        fill:none;
-        stroke:gray;
-        stroke-width:12;
-        stroke-miterlimit:10;
+        fill: none;
+        stroke: gray;
+        stroke-width: 12;
+        stroke-miterlimit: 10;
     }
     // End vote logo svg styling
 
@@ -121,7 +129,7 @@ a {
     }
 
     &__button {
-        font-size: 0.9rem;
+        font-size: 1rem;
         margin-top: 1rem;
         background: white;
         padding: 0.8rem;

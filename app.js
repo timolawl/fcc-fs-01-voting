@@ -10,7 +10,8 @@ const port = process.env.PORT || 5000;
 const routes = require('./app/server/routes');
 
 app.set('view engine', 'pug');
-app.set('views', './app/server/views');
+app.set('views', path.join(__dirname, '/app/server/views'));
+app.locals.basedir = app.get('views'); // allows for pug includes
 
 
 //app.listen(5000, () => { console.log("Running on 5000."); });

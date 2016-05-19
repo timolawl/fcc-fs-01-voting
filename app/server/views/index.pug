@@ -1,45 +1,8 @@
-doctype html
-html(lang='en')
-  head
-    title= pageTitle
-    link(rel='stylesheet', href='static/css/index.css')
-    link(rel='stylesheet', href='https://fonts.googleapis.com/css?family=Montserrat')
-  body
-    nav.main-nav
-        ul
-            li.main-nav__list: a(href='#createpoll') Create Poll
-            li.main-nav__list: a(href='#mypolls') My Polls
-            li.main-nav__list.account-nav
-                a(href='#myaccount') My Account
-                ul
-                    li.account-nav__list: a(href='#settings') Settings
-                    li.account-nav__list: a(href='#logout') Log Out
-    section.main-banner
-        svg.vote(xmlns="http://www.w3.org/2000/svg", viewBox="0 0 288 96")
-            path.vote-0(d="M19 25h48v48H19z")
-            path.vote-1.checkmark(d="M19 25L43 49 85 7")
-            path.vote-0(d="M90 25h48v48H90z")
-            path.vote-2(d="M180 25v48")
-            path.vote-2(d="M156 25h48")
-            path.vote-2(d="M270 73h-48V25h48")
-            path.vote-3(d="M222 49h48")
-        .vote__subtitle A Free Code Camp Project
-        .vote__description Create custom polls with live results
-        form
-            button.vote__button(formaction='./signup') Sign Up
-    section.poll
-        .poll__element
-        .poll__element
-        .poll__element
-        .poll__element
-        .poll__element
-    footer By 
-        a(href='https://timolawl.github.io') Timolawl
-        span  | 
-        a(href='https://twitter.com/timolawl') Twitter
-        span  | 
-        a(href='https://github.com/timolawl') GitHub
-        span  | 
-        a(href='https://codepen.io/timolawl') Codepen
-        span  | 
-        a(href='https://freecodecamp.com/timolawl') Free Code Camp
+include /includes/header.pug
+section.poll
+    .poll__element
+    .poll__element
+    .poll__element
+    .poll__element
+    .poll__element
+include /includes/footer.pug
