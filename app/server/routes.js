@@ -3,7 +3,7 @@
 module.exports = (app, passport) => {
     app.route('/')
        .get((req, res) => {
-            res.render('index', { loggedIn: 'true' });
+            res.render('index', { loggedIn: 'tru' });
         });
 
     app.route('/test')

@@ -8,7 +8,7 @@ html(lang='en')
     nav.main-nav
       a.logo(href='/'): img(src='/static/img/checkmark.svg')
       ul
-        if loggedIn == "true"
+        if loggedIn == 'true'
           li.main-nav__list: a(href='#createpoll') Create Poll
           li.main-nav__list: a(href='#mypolls') My Polls
           li.main-nav__list.account-nav
@@ -30,6 +30,8 @@ html(lang='en')
         path.vote-3(d="M222 49h48")
       .vote__subtitle A Free Code Camp Project
       .vote__description Create custom polls with live results.
-      form
-        button.vote__button(formaction='/signup') Sign Up
+      if page == 'index'
+        if loggedIn != 'true'
+          form
+            button.vote__button(formaction='/signup') Sign Up
 

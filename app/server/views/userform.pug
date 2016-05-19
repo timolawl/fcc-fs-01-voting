@@ -1,0 +1,21 @@
+include /includes/header.pug
+form
+  if path == 'signup'
+    label Name
+    input(type='text', required)
+  label Email
+  input(type='email', pattern='^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9]+\.[a-zA-Z0-9-.]+$', maxlength='100', required)
+  if path != 'reset'
+    label Password
+    input(type='password', minlength='6', maxlength='50', required)
+  if path == 'signup'
+    label Confirm Password
+    input(type='password', minlength='6', maxlength='50', required)
+  case path
+    when 'signup'
+      input(type='submit' value='Sign up')
+    when 'login'
+      input(type='login' value='Log in')
+    when 'reset'
+      input(type='reset' value='Send Email')
+include /includes/footer.pug
