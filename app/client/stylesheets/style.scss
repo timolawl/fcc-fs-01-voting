@@ -55,7 +55,7 @@ a {
       }
     }
 
-    .logo {
+    &__logo {
         display: inline-block; // allows for setting height/width for anchor
         float: left;
         margin-left: 1rem;
@@ -87,18 +87,24 @@ a {
 }
 
 .main-banner {
+    position: relative;
+    z-index: 2;
     background-color: $primary-color;
     text-align: center;
     padding: 1rem;
-
 }
 
 // VOTE logo SVG styling
-
 .vote {
-    width: 30%;
-    min-width: 200px;
-    margin-top: -0.5rem;
+    &__link {
+        display: inline-block;
+        width: 30%;
+        min-width: 200px;
+        margin-top: -0.5rem;
+    }
+
+    &__fulllogo {
+    }
 
     &-0 {
         stroke: #231f20;

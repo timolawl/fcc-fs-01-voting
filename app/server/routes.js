@@ -3,7 +3,7 @@
 module.exports = (app, passport) => {
     app.route('/')
        .get((req, res) => {
-            res.render('index', { loggedIn: 'tru', path: 'index' });
+            res.render('index', { loggedIn: 'true', path: 'index' });
         });
 
     app.route('/test')
@@ -24,6 +24,16 @@ module.exports = (app, passport) => {
     app.route('/reset')
         .get((req, res) => {
             res.render('userform', { path: 'reset' });
+        });
+
+    app.route('/createpoll')
+        .get((req, res) => {
+            res.render('pollform'); // need to create
+        });
+
+    app.route('/mypolls')
+        .get((req, res) => {
+            res.render('mypolls', { path: 'mypolls' }); // use index?
         });
 
     app.use((req, res) => { res.status(400).send('Bad request.'); });

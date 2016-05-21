@@ -1,0 +1,10 @@
+include /includes/header.pug
+form.pollform
+  label.pollform__label Poll Name
+  input.pollform__input.pollform__input--name(type='text', name='name' required)
+  label.pollform__label Poll Options
+  .pollform__options
+    .pollform__options--option
+      input.pollform__input.pollform__input--options(type='text', name='options' required)
+      button.pollform__button(value='X') X
+include /includes/footer.pug
