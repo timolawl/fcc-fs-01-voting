@@ -3,7 +3,7 @@
 module.exports = (app, passport) => {
     app.route('/')
        .get((req, res) => {
-            res.render('index', { loggedIn: 'tru' });
+            res.render('index', { loggedIn: 'tru', path: 'index' });
         });
 
     app.route('/test')
@@ -13,17 +13,17 @@ module.exports = (app, passport) => {
 
     app.route('/signup')
         .get((req, res) => {
-            res.render('userform', { page: 'signup' });
+            res.render('userform', { path: 'signup' });
         });
 
     app.route('/login')
         .get((req, res) => {
-            res.render('userform', { page: 'login' }); // should I only have one file between signup and login? Just pass in an object to specify which is which?
+            res.render('userform', { path: 'login' }); // should I only have one file between signup and login? Just pass in an object to specify which is which?
         });
 
     app.route('/reset')
         .get((req, res) => {
-            res.render('userform', { page: 'reset' });
+            res.render('userform', { path: 'reset' });
         });
 
     app.use((req, res) => { res.status(400).send('Bad request.'); });

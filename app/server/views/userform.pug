@@ -1,21 +1,29 @@
 include /includes/header.pug
-form
-  if path == 'signup'
-    label Name
-    input(type='text', required)
-  label Email
-  input(type='email', pattern='^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9]+\.[a-zA-Z0-9-.]+$', maxlength='100', required)
-  if path != 'reset'
-    label Password
-    input(type='password', minlength='6', maxlength='50', required)
-  if path == 'signup'
-    label Confirm Password
-    input(type='password', minlength='6', maxlength='50', required)
+.title
   case path
     when 'signup'
-      input(type='submit' value='Sign up')
+      span Sign Up
     when 'login'
-      input(type='login' value='Log in')
+      span Log In
     when 'reset'
-      input(type='reset' value='Send Email')
+      span Reset Password
+form.userform
+  if path == 'signup'
+    label.userform__label Name
+    input.userform__input(type='text', required)
+  label.userform__label Email
+  input.userform__input(type='email', pattern='^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9]+\.[a-zA-Z0-9-.]+$', maxlength='100', required)
+  if path != 'reset'
+    label.userform__label Password
+    input.userform__input(type='password', minlength='6', maxlength='50', required)
+  if path == 'signup'
+    label.userform__label Confirm Password
+    input.userform__input(type='password', minlength='6', maxlength='50', required)
+  case path
+    when 'signup'
+      input.userform__submit(type='submit' value='Sign Up')
+    when 'login'
+      input.userform__submit(type='submit' value='Log In')
+    when 'reset'
+      input.userform__submit(type='submit' value='Reset Password')
 include /includes/footer.pug
