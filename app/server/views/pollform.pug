@@ -1,10 +1,16 @@
 include /includes/header.pug
-form.pollform
-  label.pollform__label Poll Name
-  input.pollform__input.pollform__input--name(type='text', name='name' required)
-  label.pollform__label Poll Options
-  .pollform__options
-    .pollform__options--option
-      input.pollform__input.pollform__input--options(type='text', name='options' required)
-      button.pollform__button(value='X') X
+.title: span Create Poll
+form.form
+  label.form__label Poll Name
+  input.form__input.form__input--name(type='text', name='name', placeholder='What is your favorite book/book series?' required)
+  label.form__label Poll Options
+  .form__options
+    .form__options--option
+      input.form__input.form__input--options(type='text', name='options', placeholder='Harry Potter' required)
+      button.form__button--delete X
+    .form__options--option
+      input.form__input.form__input--options(type='text', name='options', placeholder='The Chronicles of Narnia' required)
+      button.form__button--delete X
+  button.form__button--create More Options
+  input.form__submit(type='submit', value='Create Poll')
 include /includes/footer.pug

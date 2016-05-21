@@ -28,7 +28,7 @@ module.exports = (app, passport) => {
 
     app.route('/createpoll')
         .get((req, res) => {
-            res.render('pollform'); // need to create
+            res.render('pollform'); // each option needs to pass through logIn middleware.
         });
 
     app.route('/mypolls')
