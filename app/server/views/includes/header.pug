@@ -6,19 +6,19 @@ html(lang='en')
     link(rel='stylesheet', href='https://fonts.googleapis.com/css?family=Montserrat')
   body
     nav.main-nav
-      a.logo(href='/'): img(src='/static/img/checkmark.svg')
-      ul
-        if loggedIn == 'true'
-          li.main-nav__list: a(href='#createpoll') Create Poll
-          li.main-nav__list: a(href='#mypolls') My Polls
-          li.main-nav__list.account-nav
+      ul(class= path)
+        a.logo(href='/').index: img(src='/static/img/checkmark.svg')
+        if loggedIn === 'true'
+          li.main-nav__list.createpoll: a(href='#createpoll') Create Poll
+          li.main-nav__list.mypolls: a(href='#mypolls') My Polls
+          li.main-nav__list.myaccount.account-nav
             a(href='#myaccount') My Account
             ul
               li.account-nav__list: a(href='#settings') Settings
               li.account-nav__list: a(href='#logout') Log Out
         else
-          li.main-nav__list: a(href='/signup') Sign Up
-          li.main-nav__list: a(href='/login') Login
+          li.main-nav__list.signup: a(href='/signup') Sign Up
+          li.main-nav__list.login: a(href='/login') Log In
     section.main-banner
       a(href='/')
         svg.vote(xmlns="http://www.w3.org/2000/svg", viewBox="0 0 288 96")

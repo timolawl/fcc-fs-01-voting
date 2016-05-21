@@ -2,6 +2,8 @@ $primary-color: lightblue;
 $secondary-color: gray;
 $highlight-color: #f15a29; // was orange
 
+$paths: index, signup, login, reset;
+
 *, :before, :after {
     box-sizing: border-box;
     margin: 0;
@@ -37,17 +39,28 @@ a {
         position: relative;
     }
 
-    ul a {
+    ul a:not([class~='index']) {
         display: inline-block;
         padding: 1rem;
         width: 100%; // allow for drop down nav bg to reach edge of screen
     }
+
+    ul.index a.index {
+        background: $primary-color;
+    }
+
+    @each $path in $paths {
+      ul.#{$path} li.#{$path} {
+          background: $primary-color;
+      }
+    }
+
     .logo {
         display: inline-block; // allows for setting height/width for anchor
         float: left;
         margin-left: 1rem;
-        height: 51px;
-        width: 51px;
+        height: 3.5rem;
+        width: 3.5rem;
     }
 }
 
