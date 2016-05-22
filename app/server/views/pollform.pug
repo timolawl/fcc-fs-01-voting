@@ -7,10 +7,11 @@ form.form
   .form__options
     .form__options--option
       input.form__input.form__input--options(type='text', name='options', placeholder='Harry Potter' required)
-      button.form__button--delete X
+      button.form__button--delete#option-1 X
     .form__options--option
       input.form__input.form__input--options(type='text', name='options', placeholder='The Chronicles of Narnia' required)
-      button.form__button--delete X
+      button.form__button--delete#option-2 X
   button.form__button--create More Options
   input.form__submit(type='submit', value='Create Poll')
 include /includes/footer.pug
+script(src='static/js/bundle.js')
