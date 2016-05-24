@@ -14,12 +14,15 @@ module.exports = (app, passport) => {
     app.route('/signup')
         .get((req, res) => {
             res.render('userform', { path: 'signup' });
-        });
+        })
+        .post(); 
 
     app.route('/login')
         .get((req, res) => {
             res.render('userform', { path: 'login' }); // should I only have one file between signup and login? Just pass in an object to specify which is which?
         });
+
+       // .post(
 
     app.route('/reset')
         .get((req, res) => {
