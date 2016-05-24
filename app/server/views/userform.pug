@@ -10,7 +10,7 @@ include /includes/header.pug
 form.form
   if path == 'signup'
     label.form__label Name
-    input.form__input.form__input--name(type='text', name='name' required)
+    input.form__input.form__input--name(type='text', name='name', maxlength='50' required)
   label.form__label Email
   input.form__input.form__input--email(type='email', name='email' pattern='^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9]+\.[a-zA-Z0-9-.]+$', maxlength='100', required)
   if path != 'reset'
