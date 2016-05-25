@@ -99,7 +99,7 @@ gulp.task('image', () => {
         .pipe(gulp.dest('/static/img'));
 });
 
-gulp.task('watch', ['browserSync', 'sass', 'script'], () => {
+gulp.task('watch', ['browserSync'], () => {
     gulp.watch('./app/client/stylesheets/*.scss', ['sass']); // why can't it be '/'?
     gulp.watch('./app/client/scripts/*.js', ['script']); // will reload twice (if not directly modifying the pre and post js files. Once for the module file, and then again since the changes propagating to the pre/post will trigger the task again).
   //  gulp.watch('public/*.html', browserSync.reload);
@@ -107,5 +107,5 @@ gulp.task('watch', ['browserSync', 'sass', 'script'], () => {
   //    gulp.watch('*', browserSync.reload);
 });
 
-gulp.task('default', ['watch']);
+gulp.task('default', ['build', 'watch']);
 gulp.task('build', ['sass', 'script']);
