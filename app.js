@@ -21,6 +21,7 @@ const mongoose = require('mongoose'); // already includes mongoDB
 const helmet = require('helmet');
 const sanitizer = require('sanitizer');
 const limiter = require('limiter');
+const uuid = require('node-uuid'); // for the nonce, though I may not need it required here...along with other 'requires'
 
 // authentication and its dependency requires
 const bodyParser = require('body-parser');
