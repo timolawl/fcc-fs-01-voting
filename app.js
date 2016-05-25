@@ -1,5 +1,7 @@
 'use strict';
 
+// can't use import natively yet as V8 doesn't have support for it yet.
+
 require('dotenv').config(); // loads env vars (don't need in prod)
 
 // built-in requires
@@ -14,6 +16,11 @@ const favicon = require('serve-favicon');
 
 // database requires
 const mongoose = require('mongoose'); // already includes mongoDB
+
+// security requires
+const helmet = require('helmet');
+const sanitizer = require('sanitizer');
+const limiter = require('limiter');
 
 // authentication and its dependency requires
 const bodyParser = require('body-parser');
@@ -47,15 +54,20 @@ app.locals.basedir = app.get('views'); // allows for pug includes
 
 //app.listen(5000, () => { console.log("Running on 5000."); });
 app.set('port', port);
+
+app.use(helmet()); // can set up CSP against XSS attacks. 7/10 of its headers implemented by default.
 app.use('/static', express.static(path.join(__dirname,'/static')));
 app.use(favicon(path.join(__dirname, '/static/img/favicon.ico')));
+
+
 
 app.use(morgan('dev')); // log every request to console.
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(session({
     secret: config.sessionSecret,
     resave: false,
-    saveUninitialized: true
+    saveUninitialized: false, // no ability for non-authorized; no reason to save.
+    cookie: { secure: 'auto' } // didn't specify true as working between dev/prod. auto automatically determines, however if set on https then going to http will not show cookie.
 }));
 
 app.use(passport.initialize());
