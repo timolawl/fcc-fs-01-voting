@@ -14,8 +14,8 @@ module.exports = (app, passport) => {
     app.route('/signup')
         .get((req, res) => {
             res.render('userform', { path: 'signup' });
-        })
-        .post(); 
+        });
+       // .post(); 
 
     app.route('/login')
         .get((req, res) => {

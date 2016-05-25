@@ -42,7 +42,8 @@ window.onload = function () {
                 let target = document.getElementById(e.target.id).parentNode;
                 target.parentNode.removeChild(target);
             }
-            
+
+            // create function
             if (e && e.target.id === 'option-create') {
                 e.preventDefault(); // apparently this is needed for preventing the 'requirement' popup.
                 addOption(buttonCounter);
@@ -50,7 +51,6 @@ window.onload = function () {
             }
         }); // event delegation
     }
-    // create function
     
     // why does having the onclick on the button itself not work?
 };

@@ -7,10 +7,13 @@ const LocalStrategy = require('passport-local').Strategy;
 module.exports = passport => {
     /* for now to see if it is needed to test basic auth.
     //serialization/deserialization of user for session..
+    // serialize called when user logs in
     passport.serializeUser((user, done) => {
         done(null, user.id);
     });
 
+    // deserialize the opposite, though explanation somewhat confusing:
+    // takes the id stored in the session and we use that id to retrieve our user.
     passport.deserializeUser((id, done) => {
         User.findById(id, (err, user) {
             done(err, user);

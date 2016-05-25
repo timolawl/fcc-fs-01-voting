@@ -8,6 +8,7 @@ const browserSync = require('browser-sync').create();
 const gulp = require('gulp');
 const gutil = require('gulp-util');
 // const gulpif = require('gulp-if');
+
 const sass = require('gulp-sass');
 const plumber = require('gulp-plumber');
 const autoprefixer = require('gulp-autoprefixer');
@@ -19,6 +20,8 @@ const source = require('vinyl-source-stream');
 const buffer = require('vinyl-buffer');
 const browserify = require('browserify');
 const babelify = require('babelify');
+const es = require('event-stream');
+const rename = require('gulp-rename');
 
 const imagemin = require('gulp-imagemin');
 
@@ -44,7 +47,7 @@ gulp.task('sass', () => {
             stream: true
         }));
 });
-
+/*
 gulp.task('script', () => {
     return browserify('./app/client/scripts/script.js', { debug: true })
         .transform(babelify.configure({ presets: ['es2015'] }))
@@ -57,20 +60,52 @@ gulp.task('script', () => {
         .pipe(sourcemaps.write('.'))
         .pipe(gulp.dest('static/js'));
 });
+*/
 
-gulp.task('image', () => {
-    return gulp.src('./app/client/images/**/*.+(png|jpg|gif|svg)')
-        .pipe(imagemin())
-        .pipe(gulp.dest('./static/img'));
+gulp.task('script', () => {
+    // define input files to be bundled
+    const files = [
+        './pre.js', // why can't it just be '/'?
+        './post.js' // same here
+    ];
+
+    // map to stream function
+    const tasks = files.map(entry => {
+        return browserify({ entries: [entry], basedir: './app/client/scripts', debug: true })
+            .transform(babelify.configure({ presets: ['es2015'] }))
+            .bundle()
+            .on('error', gutil.log.bind(gutil, 'Browserify error.'))
+            .pipe(source(entry))
+            .pipe(rename({
+                extname: '.bundle.js'
+            }))
+            .pipe(buffer())
+            .pipe(sourcemaps.init({ loadMaps: true }))
+            .pipe(uglify({ mangle: false }))
+            .pipe(sourcemaps.write('.'))
+            .pipe(gulp.dest('./static/js')) // why can't it just be '/'?
+            .pipe(browserSync.reload({
+                stream: true
+            }));
+    });
+
+    // create a merged stream
+    return es.merge.apply(null, tasks);
 });
 
-gulp.task('watch', ['browserSync', 'sass'], () => {
-    gulp.watch('./app/client/stylesheets/*.scss', ['sass']);
-    gulp.watch('./app/client/scripts/*.js', ['script']);
+gulp.task('image', () => {
+    return gulp.src('/app/client/images/**/*.+(png|jpg|gif|svg)')
+        .pipe(imagemin())
+        .pipe(gulp.dest('/static/img'));
+});
+
+gulp.task('watch', ['browserSync', 'sass', 'script'], () => {
+    gulp.watch('./app/client/stylesheets/*.scss', ['sass']); // why can't it be '/'?
+    gulp.watch('./app/client/scripts/*.js', ['script']); // will reload twice (if not directly modifying the pre and post js files. Once for the module file, and then again since the changes propagating to the pre/post will trigger the task again).
   //  gulp.watch('public/*.html', browserSync.reload);
   //  gulp.watch('public/js/**/*.js', browserSync.reload);
   //    gulp.watch('*', browserSync.reload);
 });
 
-gulp.task('default', ['watch', 'sass', 'script']);
+gulp.task('default', ['watch']);
 gulp.task('build', ['sass', 'script']);
