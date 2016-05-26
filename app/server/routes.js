@@ -6,16 +6,15 @@ module.exports = (app, passport) => {
             res.render('index', { loggedIn: 'true', path: 'index' });
         });
 
-    app.route('/test')
-        .get(isLoggedIn, (res, req) => {
-            res.send('Okay!');
-        });
-
     app.route('/signup')
-        .get((req, res) => {
+        .get(isLoggedIn, (req, res) => {
             res.render('userform', { path: 'signup' });
-        });
-       // .post(); 
+        })
+        .post(passport.authenticate('local-signup', {
+            successRedirect: '/',
+            failureRedirect: '/signup',
+            failureFlash: true
+        }));
 
     app.route('/login')
         .get((req, res) => {
@@ -46,5 +45,5 @@ function isLoggedIn (req, res, next) {
     if (req.isAuthenticated()) // isAuthenticated is a passport JS add-on method
         return next();
 
-    res.send('Uh oh...');
+    res.redirect('/');
 }
