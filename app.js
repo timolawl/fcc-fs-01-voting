@@ -39,12 +39,12 @@ const port = process.env.PORT || 5000;
 const routes = require('./app/server/routes');
 const config = require('./app/server/config');
 const User = require('./app/server/models/user');
-
+/*
 mongoose.connect(config.dbURL);
 mongoose.connection.on('error', () => {
     console.log('Error: Could not connect to MongoDB. Did you forget to run "mongod"?');
 });
-
+*/
 
 require('./app/server/controllers/middlewares/passport')(passport); // pass passport for configuration.
 

@@ -9,13 +9,13 @@ const userSchema = new mongoose.Schema({
         _id             : Number,
         username        : { type: String, required: true, unique: true },
         email           : { type: String, required: true, unique: true },
-        password        : { type: String, required: true, select: false }
+        password        : { type: String, required: true, select: false },
         accountStatus   : String,
         accountConfirmationToken: String,
         accountConfirmationExpires: Date,
         resetPasswordToken: String,
         resetPasswordExpires: Date,
-        polls: [{ type: Schema.Types.ObjectId, ref: 'Polls' })
+        polls: [{ type: mongoose.Schema.ObjectId, ref: 'Polls' }]
     }
 });
 

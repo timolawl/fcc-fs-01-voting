@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const pollSchema = new mongoose.Schema({
     _creator: { type: Number, ref: 'User' },
     title: { type: String, required: true },
-    options: [{ type: Schema.Types.ObjectId, ref: 'Option' }]
+    options: [{ type: mongoose.Schema.ObjectId, ref: 'Option' }]
 });
 
 const optionSchema = new mongoose.Schema({
