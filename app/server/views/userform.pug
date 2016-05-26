@@ -9,15 +9,15 @@ include /includes/header.pug
       span Reset Password
 form.form
   if path == 'signup'
-    label.form__label Name
+    label.form__label(for='name') Name
     input.form__input.form__input--name(type='text', name='name', maxlength='50' required)
-  label.form__label Email
+  label.form__label(for='email') Email
   input.form__input.form__input--email(type='email', name='email' pattern='^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9]+\.[a-zA-Z0-9-.]+$', maxlength='100', required)
   if path != 'reset'
-    label.form__label Password
+    label.form__label(for='password') Password
     input.form__input.form__input--password(type='password', name='password' minlength='6', maxlength='50', required)
   if path == 'signup'
-    label.form__label Confirm Password
+    label.form__label(for='confirm') Confirm Password
     input.form__input.form__input--confirm(type='password', name='confirm' minlength='6', maxlength='50', required)
   case path
     when 'signup'

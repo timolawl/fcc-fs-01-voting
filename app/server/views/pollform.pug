@@ -1,9 +1,9 @@
 include /includes/header.pug
 .title: span Create Poll
 form.form
-  label.form__label Poll Name
+  label.form__label(for='name') Poll Name
   input.form__input.form__input--name(type='text', name='name', placeholder='What is your favorite book/book series?' required)
-  label.form__label Poll Options
+  label.form__label(for='options') Poll Options
   .form__options
     .form__options--option
       input.form__input.form__input--options(type='text', name='options', placeholder='Harry Potter' required)

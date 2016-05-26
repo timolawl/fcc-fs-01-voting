@@ -6,10 +6,16 @@ const SALT_WORK_FACTOR = 10;
 
 const userSchema = new mongoose.Schema({
     local               : {
-        username        : { type: String, required: true },
-        email           : { type: String, required: true },
+        _id             : Number,
+        username        : { type: String, required: true, unique: true },
+        email           : { type: String, required: true, unique: true },
         password        : { type: String, required: true, select: false }
-   //     accountStatus   : { type: String, 
+        accountStatus   : String,
+        accountConfirmationToken: String,
+        accountConfirmationExpires: Date,
+        resetPasswordToken: String,
+        resetPasswordExpires: Date,
+        polls: [{ type: Schema.Types.ObjectId, ref: 'Polls' })
     }
 });
 
