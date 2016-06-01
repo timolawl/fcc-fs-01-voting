@@ -3,11 +3,13 @@
 module.exports = (app, passport) => {
     app.route('/')
        .get((req, res) => {
-            res.render('index', { loggedIn: 'true', path: 'index' });
+           if (req.isAuthenticated())
+             res.render('index', { loggedIn: 'true', path: 'index' }); //loggedIn still needed to not display the 'sign up' button
+           res.render('index', { path: 'index' });
         });
 
     app.route('/signup')
-        .get(isLoggedIn, (req, res) => {
+        .get(isNotLoggedIn, (req, res) => {
             res.render('userform', { path: 'signup' });
         })
         .post(passport.authenticate('local-signup', {
@@ -17,7 +19,7 @@ module.exports = (app, passport) => {
         }));
 
     app.route('/login')
-        .get((req, res) => {
+        .get(isNotLoggedIn, (req, res) => {
             res.render('userform', { path: 'login' }); // should I only have one file between signup and login? Just pass in an object to specify which is which?
         });
 
@@ -33,7 +35,7 @@ module.exports = (app, passport) => {
             res.render('pollform'); // each option needs to pass through logIn middleware.
         });
 
-    app.route('/mypolls')
+    app.route('/mypolls') // redirect here instead after login?
         .get((req, res) => {
             res.render('mypolls', { path: 'mypolls' }); // use index?
         });
@@ -46,4 +48,10 @@ function isLoggedIn (req, res, next) {
         return next();
 
     res.redirect('/');
+}
+
+function isNotLoggedIn (req, res, next) {
+    if (req.isAuthenticated())
+        res.redirect('/');
+    else return next();
 }
