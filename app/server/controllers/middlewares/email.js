@@ -10,11 +10,11 @@ const mailer = require('nodemailer');
 // 
 //
 module.exports = { // it doesn't have to be a function as far as I'm aware.
-    toConfirmAccount = () => {
+    toConfirmAccount: () => {
         console.log('confirm account.');
-    };
+    },
 
-    toResetPassword = () => {
+    toResetPassword: () => {
         console.log('reset password.');
     }
 }

@@ -175,6 +175,12 @@ a {
     }
 }
 
+/********************************************************/
+// body class settings:
+.body {
+    text-align: center;
+}
+
 
 /********************************************************/
 // page titles
@@ -184,6 +190,18 @@ a {
     text-align: center;
 }
 
+
+/********************************************************/
+// flash message
+.message {
+    display: inline-block;
+    background: transparentize(red, 0.5);
+    color: darken(red, 25%);
+    padding: 0.5rem;
+    border: 1px solid red;
+}
+
+
 /********************************************************/
 // form
 .form {
@@ -191,6 +209,7 @@ a {
     max-width: 1000px;
     margin-left: 25%;
     &__label {
+        text-align: initial;
         display: block;
         margin: 1rem auto 0.25rem;
     }

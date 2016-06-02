@@ -5,12 +5,12 @@ module.exports = (app, passport) => {
        .get((req, res) => {
            if (req.isAuthenticated())
              res.render('index', { loggedIn: 'true', path: 'index' }); //loggedIn still needed to not display the 'sign up' button
-           res.render('index', { path: 'index' });
+           else res.render('index', { path: 'index' });
         });
 
-    app.route('/signup')
+    app.route('/signup') // this allows for the question mark path.
         .get(isNotLoggedIn, (req, res) => {
-            res.render('userform', { path: 'signup' });
+            res.render('userform', { path: 'signup', message: req.flash('signupMessage') });
         })
         .post(passport.authenticate('local-signup', {
             successRedirect: '/',
@@ -24,6 +24,13 @@ module.exports = (app, passport) => {
         });
 
        // .post(
+       //
+    
+    app.route('/logout')
+        .get((req, res) => {
+            req.logout();
+            res.redirect('/');
+        });
 
     app.route('/reset')
         .get((req, res) => {

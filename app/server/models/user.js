@@ -19,19 +19,20 @@ const userSchema = new mongoose.Schema({
     }
 });
 
-userSchema.pre('save', next => {
+userSchema.pre('save', function (next) {
+    const user = this;
     // only hash the password if it has been modified or is new
-    if (!this.isModified('local.password')) return next();
+    if (!user.isModified('local.password')) return next();
 
     // generate a salt:
     bcrypt.genSalt(SALT_WORK_FACTOR, (err, salt) => {
         if (err) return next(err);
 
         // hash the password along with our new salt
-        bcrypt.hash(this.local.password, salt, (err, hash) => {
+        bcrypt.hash(user.local.password, salt, (err, hash) => {
             if (err) return next(err);
 
-            this.local.password = hash;
+            user.local.password = hash;
             return next();
         });
     });
