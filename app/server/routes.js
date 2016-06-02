@@ -20,11 +20,14 @@ module.exports = (app, passport) => {
 
     app.route('/login')
         .get(isNotLoggedIn, (req, res) => {
-            res.render('userform', { path: 'login' }); // should I only have one file between signup and login? Just pass in an object to specify which is which?
-        });
-
-       // .post(
-       //
+            res.render('userform', { path: 'login', message: req.flash('loginMessage') }); // should I only have one file between signup and login? Just pass in an object to specify which is which?
+        })
+        .post(passport.authenticate('local-login', {
+            successRedirect: '/',
+            failureRedirect: '/login',
+            failureFlash: true
+        }));
+       
     
     app.route('/logout')
         .get((req, res) => {
