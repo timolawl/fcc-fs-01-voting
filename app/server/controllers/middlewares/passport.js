@@ -86,11 +86,10 @@ module.exports = passport => {
     }));
 
     passport.use('local-login', new LocalStrategy({
-        usernameField: 'email',
-        passReqToCallback: true
+        usernameField: 'email', // local strategy requires 2 fields; hence the temp switch
     },
     (req, email, password, done) => {
-        User.findOne({ 'local.email': email.toLowerCase() }).select('local.password').exec((err, user) => {
+        User.findOne({ 'local.email': email.toLowerCase() }).select('local.password').exec((err, user) => { // manner of selecting select: false fields
             if (err) return done(err);
             if (!user) return done(null, false, req.flash('loginMessage', 'Incorrect email/password or account does not exist.'));
             else {

@@ -1,5 +1,8 @@
 'use strict';
 
+const uuid = require('node-uuid');
+var nonce;
+
 module.exports = (app, passport) => {
     app.route('/')
        .get((req, res) => {
@@ -34,20 +37,42 @@ module.exports = (app, passport) => {
             req.logout();
             res.redirect('/');
         });
-
+/*
     app.route('/reset')
         .get((req, res) => {
             res.render('userform', { path: 'reset' });
         });
-
+*/
     app.route('/createpoll')
         .get((req, res) => {
             res.render('pollform'); // each option needs to pass through logIn middleware.
+        })
+        .post((req, res) => { // check if there is identical?
+            nonce = uuid.v4(); // save this to the db, along with the req body.
+            
+            // leave off here? **NEED TO SAVE THE req.body stuff to the schema**
+            // What else can be in the controller? Would this essentially be the
+            // middleware that separates out the talking to the database, leaving
+            // the routes relatively clean?
+
+            // save nonce as permalink, name and options as initial data
+            // how do I create a poll so that I have options, but no votes yet?
+            // this has more to do with rendering in Chart js than it does the db.
+            res.redirect('/' + nonce);
+            console.log(req.body);
         });
+
 
     app.route('/mypolls') // redirect here instead after login?
         .get((req, res) => {
             res.render('mypolls', { path: 'mypolls' }); // use index?
+        });
+
+    app.route(/^[0-9a-f-]+$/) // nonce path; I'll need to retrieve the poll from this permalink somehow...
+        .get((req, res) => {
+            res.render('poll', { path: 'poll',
+                            // retrieve everything from db.
+                             }); // is the path right?
         });
 
     app.use((req, res) => { res.status(400).send('Bad request.'); });

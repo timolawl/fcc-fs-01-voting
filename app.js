@@ -19,12 +19,12 @@ const mongoose = require('mongoose'); // already includes mongoDB
 
 // security requires
 const helmet = require('helmet');
-const sanitizer = require('sanitizer');
-const limiter = require('limiter');
-const uuid = require('node-uuid'); // for the nonce, though I may not need it required here...along with other 'requires'
+const sanitizer = require('sanitizer'); // where will I be using sanitizer?
+const limiter = require('limiter'); // where will I be using limiter?
+const uuid = require('node-uuid'); // for the nonce, though I may not need it required here...along with other 'requires'; since not using email confirm, no need...
 
 // performance requires
-const compression = require('compression');
+const compression = require('compression'); // where am I using this?
 
 // authentication and its dependency requires
 const bodyParser = require('body-parser');

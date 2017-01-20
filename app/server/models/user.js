@@ -4,18 +4,21 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const SALT_WORK_FACTOR = 10;
 
+const Poll = require('./poll');
+
 const userSchema = new mongoose.Schema({
     local               : {
         _id             : Number,
         username        : { type: String, required: true, unique: true },
         email           : { type: String, required: true, unique: true },
         password        : { type: String, required: true, select: false },
-        accountStatus   : String,
-        accountConfirmationToken: String,
-        accountConfirmationExpires: Date,
-        resetPasswordToken: String,
-        resetPasswordExpires: Date,
-        polls: [{ type: mongoose.Schema.ObjectId, ref: 'Polls' }]
+      //  accountStatus   : String,
+      //  accountConfirmationToken: String,
+      //  accountConfirmationExpires: Date,
+      //  resetPasswordToken: String,
+      //  resetPasswordExpires: Date,
+        polls: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Poll' }],
+        pollsVotedOn: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Poll' }]
     }
 });
 
