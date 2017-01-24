@@ -18,7 +18,7 @@ function addOption (btnCounter) {
     input.setAttribute('type', 'text');
     input.setAttribute('name', 'options');
     input.setAttribute('placeholder', 'New Option');
-    input.setAttribute('pattern', '^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,200}$');
+    input.setAttribute('pattern', '^[a-zA-Z0-9][a-zA-Z0-9_/ .?-]{0,200}$');
 
     const div = document.createElement('div');
     div.className = 'form__options--option';

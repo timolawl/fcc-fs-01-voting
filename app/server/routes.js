@@ -44,9 +44,8 @@ module.exports = (app, passport) => {
         });
 */
     app.route('/createpoll')
-        .get((req, res) => {
-            if (req.isAuthenticated())
-              res.render('pollform', { loggedIn: 'true', path: 'createpoll' }); // each option needs to pass through logIn middleware.
+        .get(isLoggedIn, (req, res) => {
+            res.render('pollform', { loggedIn: 'true', path: 'createpoll' }); // each option needs to pass through logIn middleware. Using loggedIn for setting the right nav bar..
         })
         .post((req, res) => { // check if there is identical?
             nonce = uuid.v4(); // save this to the db, along with the req body.
@@ -65,11 +64,11 @@ module.exports = (app, passport) => {
 
 
     app.route('/mypolls') // redirect here instead after login?
-        .get((req, res) => {
-            res.render('mypolls', { path: 'mypolls' }); // use index?
+        .get(isLoggedIn, (req, res) => {
+            res.render('mypolls', { loggedIn: 'true', path: 'mypolls' }); // use index? again, using loggedIn for setting the right nav bar, but there could be a cleaner way of doing this.
         });
 
-    app.route(/^[0-9a-f-]+$/) // nonce path; I'll need to retrieve the poll from this permalink somehow...
+    app.route(/^\/[0-9a-f-]+$/) // nonce path; I'll need to retrieve the poll from this permalink somehow... this also needs to verify the existence of the path in the server, otherwise display error.
         .get((req, res) => {
             res.render('poll', { path: 'poll',
                             // retrieve everything from db.
