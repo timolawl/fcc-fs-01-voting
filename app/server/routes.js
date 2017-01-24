@@ -1,6 +1,6 @@
 'use strict';
 
-const uuid = require('node-uuid');
+const uuid = require('node-uuid'); // looks like I planned on using this for poll ID
 var nonce;
 
 module.exports = (app, passport) => {
@@ -45,7 +45,8 @@ module.exports = (app, passport) => {
 */
     app.route('/createpoll')
         .get((req, res) => {
-            res.render('pollform'); // each option needs to pass through logIn middleware.
+            if (req.isAuthenticated())
+              res.render('pollform', { loggedIn: 'true', path: 'createpoll' }); // each option needs to pass through logIn middleware.
         })
         .post((req, res) => { // check if there is identical?
             nonce = uuid.v4(); // save this to the db, along with the req body.

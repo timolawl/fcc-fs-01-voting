@@ -2,7 +2,9 @@ $primary-color: lightblue;
 $secondary-color: gray;
 $highlight-color: #f15a29; // was orange
 
-$paths: index, signup, login, reset;
+// $paths: index, signup, login, reset;
+
+$paths: signup, login, createpoll, mypolls, myaccount;
 
 *, :before, :after {
     box-sizing: border-box;

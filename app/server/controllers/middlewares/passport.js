@@ -87,6 +87,8 @@ module.exports = passport => {
 
     passport.use('local-login', new LocalStrategy({
         usernameField: 'email', // local strategy requires 2 fields; hence the temp switch
+       // however, the problem is that req isn't passed, which is needed as well.
+        passReqToCallback: true // allows for passing entire request to cb
     },
     (req, email, password, done) => {
         User.findOne({ 'local.email': email.toLowerCase() }).select('local.password').exec((err, user) => { // manner of selecting select: false fields
