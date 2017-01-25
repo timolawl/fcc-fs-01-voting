@@ -1,9 +1,14 @@
 'use strict';
 
-const uuid = require('node-uuid'); // looks like I planned on using this for poll ID
-var nonce;
+//const uuid = require('node-uuid'); // looks like I planned on using this for poll ID
+//var nonce;
+
+const Controller = require('./controllers/controller');
 
 module.exports = (app, passport) => {
+
+    const controller = new Controller();
+
     app.route('/')
        .get((req, res) => {
            if (req.isAuthenticated())
@@ -47,7 +52,9 @@ module.exports = (app, passport) => {
         .get(isLoggedIn, (req, res) => {
             res.render('pollform', { loggedIn: 'true', path: 'createpoll' }); // each option needs to pass through logIn middleware. Using loggedIn for setting the right nav bar..
         })
-        .post((req, res) => { // check if there is identical?
+        .post(controller.createpoll); // eschewing duplication check
+  /*
+        .post(isUnique, (req, res) => { // check if there is identical?
             nonce = uuid.v4(); // save this to the db, along with the req body.
             
             // leave off here? **NEED TO SAVE THE req.body stuff to the schema**
@@ -61,7 +68,7 @@ module.exports = (app, passport) => {
             res.redirect('/' + nonce);
             console.log(req.body);
         });
-
+*/
 
     app.route('/mypolls') // redirect here instead after login?
         .get(isLoggedIn, (req, res) => {
@@ -81,7 +88,6 @@ module.exports = (app, passport) => {
 function isLoggedIn (req, res, next) {
     if (req.isAuthenticated()) // isAuthenticated is a passport JS add-on method
         return next();
-
     res.redirect('/');
 }
 
@@ -90,3 +96,11 @@ function isNotLoggedIn (req, res, next) {
         res.redirect('/');
     else return next();
 }
+/*
+function isUnique (req, res, next) { // check if the poll name is unique before creating
+    if (controller.checkUnique)
+        return next();
+    req.flash('uniqueMessage', 'Name of poll is not unique.');
+    res.redirect('/createpoll');
+}
+  */
