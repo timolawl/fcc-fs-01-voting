@@ -11,6 +11,7 @@ function addOption (btnCounter) {
     const button = document.createElement('button');
     button.className = 'form__button--delete';
     button.id = `option-${btnCounter}`;
+    button.type = 'button';
     button.textContent = 'X';
 
     const input = document.createElement('input');
