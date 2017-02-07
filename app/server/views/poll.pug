@@ -1,3 +1,25 @@
 include /includes/header.pug
 section.pollchart
+  canvas#freshPoll(width='400' height='400')
+script(src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js')
+//
+  script
+    const data = {
+      labels: optionText,
+      datasets: [
+        {
+          data: voteCount
+        }
+      ]
+    }; 
+    const ctx = document.getElementById('freshPoll');
+    const myChart = new Chart(ctx, {
+      type: 'pie',
+      data: data,
+      options: {
+        title: {
+          text: title
+        }
+      }
+    });
 include /includes/footer.pug

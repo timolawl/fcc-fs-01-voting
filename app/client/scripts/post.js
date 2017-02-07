@@ -1,5 +1,7 @@
 'use strict';
 
+
+
 // set up dynamic adding/removing of options from /pollform
 
 
@@ -10,7 +12,7 @@ function addOption (btnCounter) {
     // either way, I just add to the end of the last count, even if sparse
     const button = document.createElement('button');
     button.className = 'form__button--delete';
-    button.id = `option-${btnCounter}`;
+    button.id = `option-${btnCounter}`; // es6 template literal
     button.type = 'button';
     button.textContent = 'X';
 
@@ -103,6 +105,10 @@ window.onload = function () {
         document.querySelector('form').reset();
         // gray out submit button until everything is filled in.
         checkForm(location.pathname.toLowerCase().slice(1));
+    }
+
+    if (location.pathname.match(/\/[0-9a-f-]+$/)) {
+        console.log(data);
     }
 
     // why does having the onclick on the button itself not work?

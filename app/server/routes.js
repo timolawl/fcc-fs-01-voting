@@ -76,11 +76,14 @@ module.exports = (app, passport) => {
         });
 
     app.route(/^\/[0-9a-f-]+$/) // nonce path; I'll need to retrieve the poll from this permalink somehow... this also needs to verify the existence of the path in the server, otherwise display error.
+        /*
         .get((req, res) => {
             res.render('poll', { path: 'poll',
                             // retrieve everything from db.
                              }); // is the path right?
         });
+        */
+        .get(controller.renderpoll);
 
     app.use((req, res) => { res.status(400).send('Bad request.'); });
 };

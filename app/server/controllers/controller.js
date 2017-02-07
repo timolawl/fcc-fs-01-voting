@@ -1,6 +1,6 @@
 'use strict'
 
-const uuid = require('node-uuid');
+const uuid = require('node-uuid'); // nonce creation
 
 //const User = require('../models/user');
 const Poll = require('../models/poll');
@@ -27,7 +27,7 @@ function controller () {
      //  done(null, newPoll);
     });
 
-    res.redirect('/' + newPoll.permalink);
+    res.redirect('/' + newPoll.permalink); // , { permalink: newPoll.permalink });
 
 /*
         
@@ -42,6 +42,48 @@ function controller () {
 */
 
   };
+
+  this.renderpoll = (req, res) => {
+    // pull up the poll data using the nonce
+    Poll.findOne({ 'permalink': req.path.slice(1) }).exec((err, poll) => {
+      if (err) throw err;
+      if (!poll) throw err;
+      else {
+        // tease out data first..
+        const voteCount = poll.options.map(x => x.voteCount);
+        const optionText = poll.options.map(x => x.optionText);
+/*
+        const data = {
+          labels: optionText,
+          datasets: [
+            {
+              data: voteCount
+            }
+          ]
+        };
+        */
+        // need to actually move this to client-side because chart js is for client rendering
+        // render the page then populate with chart after? need the HTML hook...
+        res.render('poll', { path: 'poll', voteCount: voteCount, optionText: optionText, title: poll.title });
+        // get HTML hook
+        /*
+        const ctx = document.getElementById('freshPoll');
+        const myChart = new Chart(ctx, {
+          type: 'pie',
+          data: data,
+          options: {
+            title: {
+              text: poll.title
+            }
+          }
+        });
+        */
+      }
+    });
+
+  };
+
+
  /* 
   this.checkUnique = (req, res) => {
       Poll.findOne({

@@ -21,7 +21,7 @@ const mongoose = require('mongoose'); // already includes mongoDB
 const helmet = require('helmet');
 const sanitizer = require('sanitizer'); // where will I be using sanitizer?
 const limiter = require('limiter'); // where will I be using limiter?
-const uuid = require('node-uuid'); // for the nonce, though I may not need it required here...along with other 'requires'; since not using email confirm, no need...
+// const uuid = require('node-uuid'); // for the nonce, though I may not need it required here...along with other 'requires'; since not using email confirm, no need...
 
 // performance requires
 const compression = require('compression'); // where am I using this?
@@ -42,7 +42,7 @@ const morgan = require('morgan');
 const port = process.env.PORT || 5000;
 const routes = require('./app/server/routes');
 const config = require('./app/server/config');
-const User = require('./app/server/models/user');
+// const User = require('./app/server/models/user'); // why is this required?
 
 mongoose.connect(config.dbURL);
 mongoose.connection.on('error', () => {
