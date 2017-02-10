@@ -107,8 +107,69 @@ window.onload = function () {
         checkForm(location.pathname.toLowerCase().slice(1));
     }
 
-    if (location.pathname.match(/\/[0-9a-f-]+$/)) {
-        console.log(data);
+    if (location.pathname.match(/\/poll\/[0-9a-f-]+$/)) {
+        console.log('on that nonce page');
+
+       // Chart.defaults.global.elements.arc.backgroundColor = 'rgba(0,0,0,0.3)';
+       // Chart.defaults.global.elements.arc.borderColor = 'rgba(0,0,0,1)';
+       // Chart.defaults.global.elements.arc.borderWidth = 2;
+       // Chart.defaults.global.layout.padding = 5;
+
+        var ctx = document.querySelector('.createdPoll');
+        var myChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+              labels: [
+                'The Chronicles of Narnia',
+                'Harry Potter',
+                'Dragonlance',
+                'Forgotten Realms',
+                'Star Wars',
+                'Magic: The Gathering',
+                'Warcraft',
+                'Starcraft',
+                'Dune',
+                'Dan Brown\'s books',
+                'Hi Dave',
+                'I need more book series'
+              ],
+              datasets: [{
+                data: [1,2,3,4,5,6,7,8,9,10,11,12],
+                backgroundColor: [
+                  '#8DD3C7',
+                  '#FFFFB3',
+                  '#BEBADA',
+                  '#FB8072',
+                  '#80B1D3',
+                  '#FDB462',
+                  '#B3DE69',
+                  '#FCCDE5',
+                  '#D9D9D9',
+                  '#BC80BD',
+                  '#CCEBC5',
+                  '#FFED6F'
+                ]
+              }] 
+            },
+            options: {
+              title: {
+                display: true,
+                fontSize: 14,
+                text: 'What is your favorite book series?'
+              },
+              legend: {
+                position: 'bottom',
+              //  boxWidth: 10
+              }
+              /*
+              layout: {
+                padding: 5
+              }
+              */
+            }
+        });
+
+
     }
 
     // why does having the onclick on the button itself not work?

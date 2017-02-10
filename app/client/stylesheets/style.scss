@@ -1,5 +1,5 @@
-$primary-color: lightblue;
-$secondary-color: gray;
+$primary-color: #add8e6; // lightblue
+$secondary-color: #808080; // gray
 $highlight-color: #f15a29; // was orange
 
 // $paths: index, signup, login, reset;
@@ -298,6 +298,38 @@ a {
             background: lighten($secondary-color, 25%);
         }
     }
+}
+
+
+/********************************************************/
+// pollChart (chart page section for the entire page)
+.pollChart {
+//  width: 100%;
+//  height: 50vh;
+}
+
+
+/********************************************************/
+// createdPollContainer (wrapper/container for the poll itself)
+
+.createdPollContainer {
+  // min-width: // with media queries - if too small, then go by pixels?
+  max-width: 35%; // will probably need to specify using media queries
+  height: auto;
+ // height: 30%;
+ // max-height: 30%;
+ // width: auto;
+ // max-width: 50%;
+//  max-height: 40vh;
+  margin: 0 auto;
+}
+
+/********************************************************/
+// .createdPoll (class for the actual canvas element)
+
+.createdPoll {
+ // height: 50vh !important; // important needed because chart js seems to
+ //  width: auto !important; // set attributes directly on the canvas element itself
 }
 
 /********************************************************/
