@@ -31,7 +31,8 @@ html(lang='en')
           path.vote-2(d="M270 73h-48V25h48")
           path.vote-3(d="M222 49h48")
         .vote__subtitle A Free Code Camp Project
-      .vote__description Create custom polls with live results.
+      if path == 'index'
+        .vote__description Create custom polls with live results.
       if path == 'index'
         if loggedIn != 'true'
           form

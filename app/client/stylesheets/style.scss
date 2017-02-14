@@ -302,35 +302,86 @@ a {
 
 
 /********************************************************/
-// pollChart (chart page section for the entire page)
-.pollChart {
-//  width: 100%;
-//  height: 50vh;
+// single poll view
+.created-poll {
+  // segment for the entire section
+  // 1. set width to 80% unless below or above a certain pixel
+  width: 80%;
+  max-width: 960px;
+//  border: 4px solid gray;
+  padding: 2rem;
+  margin: 0 auto; // centering
+  margin-top: 2rem;
+  background: lighten($secondary-color, 25%);
+
+
+  &__title {
+    margin-bottom: 2rem;  
+  }
+
+  &__option {
+    // .created-poll__option // general option buttons styling
+    display: block;
+    margin: 1rem auto;
+    width: 300px;
+    height: 50px;
+    border: 1px solid lighten($secondary-color, 25%);
+    cursor: pointer;
+    &:hover {
+    //  background: darken($color .. );
+    }
+
+
+    &s { // .created-poll__options
+      display: inline-block; //split up the options and the chart 50/50
+      width: 50%;
+  //    background: lightblue;
+      vertical-align: top;
+    }
+
+    &--vote {
+      background: $primary-color;
+      &:hover {
+        background: darken($primary-color, 10%);
+      }
+    }
+
+    &--new-option {
+      background: $secondary-color;
+      &:hover {
+        background: darken($secondary-color, 10%);
+      }
+    }
+
+    &--share {
+      background: $secondary-color;
+      &:hover {
+        background: darken($secondary-color, 10%);
+      }
+
+    }
+ 
+    &--delete {
+      background: $highlight-color;
+      &:hover {
+        background: darken($highlight-color, 10%);
+      }
+    }
+  }
+  
+  &__poll {
+    display: inline-block;
+    width: 50%;
+    background: lighten($secondary-color, 25%);
+
+    &--canvas {
+  //    height: 300px !important;
+  //    width: 300px !important;
+    }
+  }
+
 }
 
-
-/********************************************************/
-// createdPollContainer (wrapper/container for the poll itself)
-
-.createdPollContainer {
-  // min-width: // with media queries - if too small, then go by pixels?
-  max-width: 35%; // will probably need to specify using media queries
-  height: auto;
- // height: 30%;
- // max-height: 30%;
- // width: auto;
- // max-width: 50%;
-//  max-height: 40vh;
-  margin: 0 auto;
-}
-
-/********************************************************/
-// .createdPoll (class for the actual canvas element)
-
-.createdPoll {
- // height: 50vh !important; // important needed because chart js seems to
- //  width: auto !important; // set attributes directly on the canvas element itself
-}
 
 /********************************************************/
 // footer

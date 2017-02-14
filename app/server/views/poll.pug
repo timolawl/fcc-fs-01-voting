@@ -1,7 +1,14 @@
 include /includes/header.pug
-section.pollChart
-  .createdPollContainer
-    canvas.createdPoll
+section.created-poll 
+  .created-poll__options
+    .created-poll__title
+    button.created-poll__option.created-poll__option--vote(name='Vote' type='button') Vote
+    button.created-poll__option.created-poll__option--new-option(name='New Option' type='button') New Option
+    button.created-poll__option.created-poll__option--share(name='Share' type='button') Share Poll
+    button.created-poll__option.created-poll__option--delete(name='Delete' type='button') Delete Poll
+  .created-poll__poll
+    canvas.created-poll__poll--canvas
+    .created-poll__poll--legend
 script(src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js')
 //
   script

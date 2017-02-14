@@ -110,16 +110,26 @@ window.onload = function () {
     if (location.pathname.match(/\/poll\/[0-9a-f-]+$/)) {
         console.log('on that nonce page');
 
-       // Chart.defaults.global.elements.arc.backgroundColor = 'rgba(0,0,0,0.3)';
-       // Chart.defaults.global.elements.arc.borderColor = 'rgba(0,0,0,1)';
+      //  Chart.defaults.global.elements.arc.backgroundColor = 'rgba(0,0,0,0.3)';
+      //  Chart.defaults.global.elements.arc.borderColor = 'gray'; //'rgba(0,0,0,0.5)';
        // Chart.defaults.global.elements.arc.borderWidth = 2;
        // Chart.defaults.global.layout.padding = 5;
+      //
+      // Retrieve the data from the server (socket.io or ajax)
+      // HOWEVER, do not populate the chart js labels or title
+      // populate the title and labels separately because chart js combines styling
+      // and placement of the labels and title with the chart itself, making it hard
+      // to keep the chart size the same, etc.
+      // if more than 12 just repeat the colors yolo.
 
-        var ctx = document.querySelector('.createdPoll');
-        var myChart = new Chart(ctx, {
-            type: 'pie',
-            data: {
-              labels: [
+      // title simply assign as such:
+        document.querySelector('.created-poll__title').textContent = 'What is your favorite book series?';
+      // legend is a list, will need to convert to list and then append:
+        
+     //   document.querySelector('.created-poll__poll--legend') = // set equal to the created list?
+      /*
+        // create a temporary list to try:
+        const sampleArray = [
                 'The Chronicles of Narnia',
                 'Harry Potter',
                 'Dragonlance',
@@ -132,8 +142,53 @@ window.onload = function () {
                 'Dan Brown\'s books',
                 'Hi Dave',
                 'I need more book series'
+              ];
+
+        const unorderedList = document.createElement('ul');
+        // for each item in the array, add to li, then append?
+          
+        for (let i = 0; i < sampleArray.length; i++) {
+          let el = document.createElement('li');
+          el.textContent = sampleArray[i];
+          unorderedList.append(el);
+        }
+
+        const legend = document.querySelector('.created-poll__poll--legend');
+
+        while (legend.firstChild) legend.removeChild(legend.firstChild);
+
+        legend.appendChild(unorderedList);
+      */
+
+        var ctx = document.querySelector('.created-poll__poll--canvas');
+        var myChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+              
+              labels: [
+                /*
+                'CSS',
+                'HTML',
+                'JavaScript'
+                */
+                
+                'The Chronicles of Narnia',
+                'Harry Potter',
+                'Dragonlance',
+                'Forgotten Realms',
+                'Star Wars',
+                'Magic: The Gathering',
+                'Warcraft',
+                'Starcraft',
+                'Dune',
+                'Dan Brown\'s books',
+                'Hi Dave',
+                'I need more book series'
+                
               ],
+              
               datasets: [{
+               // data: [1, 3, 7],
                 data: [1,2,3,4,5,6,7,8,9,10,11,12],
                 backgroundColor: [
                   '#8DD3C7',
@@ -151,22 +206,20 @@ window.onload = function () {
                 ]
               }] 
             },
+          
             options: {
               title: {
-                display: true,
+                display: false,
                 fontSize: 14,
                 text: 'What is your favorite book series?'
               },
               legend: {
-                position: 'bottom',
+                display: true,
+                position: 'bottom'
               //  boxWidth: 10
               }
-              /*
-              layout: {
-                padding: 5
-              }
-              */
             }
+          
         });
 
 
