@@ -17,16 +17,25 @@ function controller () {
     }
     newPoll.permalink = uuid.v4();
 
+    
+    console.log('New poll created:');
     console.log(newPoll._creator);
     console.log(newPoll.title);
     console.log(newPoll.options);
     console.log(newPoll.permalink);
+
+    
 
     newPoll.save(err => {
       if (err) throw err;
      //  done(null, newPoll);
     });
 
+    // it's not a render because the path changes; thus it must be a redirect..
+    // question is, can I pass local variables through a redirect?
+    // maybe this isn't necessary as it can always be queried from the db
+    // but direct queries is not necessary as this individual is the creator.
+    // still, a local variable passed saying that this poll was just created would help..
     res.redirect('/poll/' + newPoll.permalink); // , { permalink: newPoll.permalink });
 
 /*
@@ -44,12 +53,14 @@ function controller () {
   };
 
   this.renderpoll = (req, res) => {
+    console.log('hello?');
     // pull up the poll data using the nonce
     Poll.findOne({ 'permalink': req.path.slice(6) }).exec((err, poll) => {
       if (err) throw err;
       if (!poll) throw err;
       else {
         // tease out data first..
+        const creator = poll._creator;
         const voteCount = poll.options.map(x => x.voteCount);
         const optionText = poll.options.map(x => x.optionText);
 
@@ -69,7 +80,32 @@ function controller () {
         };
         */
         // need to actually move this to client-side because chart js is for client rendering
-        // render the page then populate with chart after? need the HTML hook...
+        // render the page then populate with chart after? need the HTML hook..
+        // data can be passed through local variables but charting it seems to require that the data be present on the page before it can be charted
+        // that or, I need to generate a dynamic pug file that becomes modified based on this, then is rendered...
+        // this would solve the direction from server to user, but what about user to server?
+        // clicks would generate ajax calls (problem with this approach is that it's only 1 person)
+        // socket io can make it real time. if using sockets, no need to do the dynamic pug page, I don't think.
+        // two checks:
+        // owner? Yes -> have delete poll option
+        // authenticated user? Yes -> have add option option
+
+        console.log('Retrieving poll...');
+        console.log(creator);
+       // console.log(req.user.id);
+        console.log(voteCount);
+        console.log(optionText);
+
+        if (req.isAuthenticated()) {
+          if (req.user.id && req.user.id === creator) {
+            res.render('poll', { owner: 'true', loggedIn: 'true', path: 'poll' });
+          }
+          else res.render('poll', { owner: 'false', loggedIn: 'true', path: 'poll' });
+        }
+        else res.render('poll', { owner: 'false', loggedIn: 'false', path: 'poll' });
+        
+        /*
+
         if (req.isAuthenticated()) {  
           res.render('poll', { loggedIn: 'true', path: 'poll', voteCount: voteCount, optionText: optionText, title: poll.title });
         }
@@ -77,6 +113,8 @@ function controller () {
           res.render('poll', { loggedIn: 'false', path: 'poll', voteCount: voteCount, optionText: optionText, title: poll.title });
 
         }
+
+        */
                 // get HTML hook
         /*
         const ctx = document.getElementById('freshPoll');

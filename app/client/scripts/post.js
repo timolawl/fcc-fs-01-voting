@@ -108,10 +108,10 @@ window.onload = function () {
     }
 
     if (location.pathname.match(/\/poll\/[0-9a-f-]+$/)) {
-        console.log('on that nonce page');
+      //  console.log('on that nonce page');
 
       //  Chart.defaults.global.elements.arc.backgroundColor = 'rgba(0,0,0,0.3)';
-      //  Chart.defaults.global.elements.arc.borderColor = 'gray'; //'rgba(0,0,0,0.5)';
+     //   Chart.defaults.global.elements.arc.borderColor = 'lightgray'; //'rgba(0,0,0,0.5)';
        // Chart.defaults.global.elements.arc.borderWidth = 2;
        // Chart.defaults.global.layout.padding = 5;
       //
@@ -123,7 +123,26 @@ window.onload = function () {
       // if more than 12 just repeat the colors yolo.
 
       // title simply assign as such:
-        document.querySelector('.created-poll__title').textContent = 'What is your favorite book series?';
+      let pollTitle = 'What is your favorite book series?';
+      document.querySelector('.created-poll__title').textContent = pollTitle;
+
+      const currentLabels = [                
+                'The Chronicles of Narnia',
+                'Harry Potter',
+                'Dragonlance',
+                'Forgotten Realms',
+                'Star Wars',
+                'Magic: The Gathering',
+                'Warcraft',
+                'Starcraft',
+                'Dune',
+                'Dan Brown\'s books',
+                'Hi Dave',
+                'I need more book series'
+      ];
+
+      const currentData = [1,2,3,4,5,6,7,8,9,10,11,12];
+
       // legend is a list, will need to convert to list and then append:
         
      //   document.querySelector('.created-poll__poll--legend') = // set equal to the created list?
@@ -165,31 +184,9 @@ window.onload = function () {
             type: 'pie',
             data: {
               
-              labels: [
-                /*
-                'CSS',
-                'HTML',
-                'JavaScript'
-                */
-                
-                'The Chronicles of Narnia',
-                'Harry Potter',
-                'Dragonlance',
-                'Forgotten Realms',
-                'Star Wars',
-                'Magic: The Gathering',
-                'Warcraft',
-                'Starcraft',
-                'Dune',
-                'Dan Brown\'s books',
-                'Hi Dave',
-                'I need more book series'
-                
-              ],
-              
+              labels: currentLabels,              
               datasets: [{
-               // data: [1, 3, 7],
-                data: [1,2,3,4,5,6,7,8,9,10,11,12],
+                data: currentData,
                 backgroundColor: [
                   '#8DD3C7',
                   '#FFFFB3',
@@ -211,7 +208,7 @@ window.onload = function () {
               title: {
                 display: false,
                 fontSize: 14,
-                text: 'What is your favorite book series?'
+                text: pollTitle
               },
               legend: {
                 display: true,
