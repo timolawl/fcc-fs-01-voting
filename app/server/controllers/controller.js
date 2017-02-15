@@ -96,13 +96,17 @@ function controller () {
         console.log(voteCount);
         console.log(optionText);
 
+        const permalink = req.protocol + '://' + req.get('host') + req.originalUrl; // for allowing the copy paste function
+
+        console.log('permalink: ' + permalink);
+
         if (req.isAuthenticated()) {
           if (req.user.id && req.user.id === creator) {
-            res.render('poll', { owner: 'true', loggedIn: 'true', path: 'poll' });
+            res.render('poll', { owner: 'true', loggedIn: 'true', permalink: permalink, path: 'poll' });
           }
-          else res.render('poll', { owner: 'false', loggedIn: 'true', path: 'poll' });
+          else res.render('poll', { owner: 'false', loggedIn: 'true', permalink: permalink, path: 'poll' });
         }
-        else res.render('poll', { owner: 'false', loggedIn: 'false', path: 'poll' });
+        else res.render('poll', { owner: 'false', loggedIn: 'false', permalink: permalink, path: 'poll' });
         
         /*
 

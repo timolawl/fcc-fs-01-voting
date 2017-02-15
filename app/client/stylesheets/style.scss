@@ -388,6 +388,63 @@ button {
 
 
 /********************************************************/
+// modal
+.modal { // modal box
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  width: 50%;
+  max-width: 640px;
+  min-width: 320px;
+  height: auto;
+  background: cyan;
+  z-index: 100;
+  text-align: center;
+  padding: 1rem;
+
+  &--share {
+    // modal box specific customizations for share
+    
+  }
+
+  &__share {
+    // customized elements for share
+    &--link-box {
+      width: 450px;
+    }
+    &--clipboard-button {
+      height: 18px;
+      width: auto;
+     // background: gray;
+      vertical-align: bottom;
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+
+  &__title {
+
+    &--share {
+      // share specifics
+    }
+  }
+
+  &__body {
+    margin-top: 1rem;
+    &--share {
+      
+    }
+  }
+
+  
+
+}
+
+
+
+/********************************************************/
 // footer
 footer {
     text-align: center;

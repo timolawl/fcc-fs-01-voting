@@ -94,9 +94,9 @@ gulp.task('script', () => {
 });
 
 gulp.task('image', () => {
-    return gulp.src('/app/client/images/**/*.+(png|jpg|gif|svg)')
+    return gulp.src('./app/client/images/**/*.+(png|jpg|gif|svg)')
         .pipe(imagemin())
-        .pipe(gulp.dest('/static/img'));
+        .pipe(gulp.dest('./static/img'));
 });
 
 gulp.task('watch', ['browserSync'], () => {

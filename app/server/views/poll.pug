@@ -6,6 +6,11 @@ section.created-poll
     if loggedIn === 'true'
       button.created-poll__option.created-poll__option--new-option(name='New Option' type='button') New Option
     button.created-poll__option.created-poll__option--share(name='Share' type='button') Share Poll
+    .modal.modal--share
+      .modal__title.modal__title--share Share this poll
+      .modal__body.modal__body--share
+        input.modal__share--link-box(type='url' readonly value=permalink)
+        img(src='/static/img/clipboard.svg').modal__share--clipboard-button
     if owner === 'true'
       button.created-poll__option.created-poll__option--delete(name='Delete' type='button') Delete Poll
   .created-poll__poll
