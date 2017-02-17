@@ -11,10 +11,10 @@ section.created-poll
         .modal__close.modal__close--vote Close
     if loggedIn === 'true'
       button.created-poll__option.created-poll__option--new-option(name='New Option' type='button') New Option
-        .modal.modal--new-option.visibility--hide
-          .modal__title.modal__title--new-option New Option
-          .modal__body.modal__body--new-option
-          .modal__close.modal__close--new-option Close
+      .modal.modal--new-option.visibility--hide
+        .modal__title.modal__title--new-option New Option
+        .modal__body.modal__body--new-option
+        .modal__close.modal__close--new-option Close
     button.created-poll__option.created-poll__option--share(name='Share' type='button') Share Poll
     .modal.modal--share.visibility--hide
       .modal__title.modal__title--share Share Poll
@@ -25,10 +25,10 @@ section.created-poll
       .modal__close.modal__close--share Close
     if owner === 'true'
       button.created-poll__option.created-poll__option--delete(name='Delete' type='button') Delete Poll
-        .modal.modal--delete-poll.visibility--hide
-          .modal__title.modal__title--delete-poll Delete Poll?
-          .modal__body.modal__body--delete-poll
-          .modal__close.modal__close--delete-poll Close
+      .modal.modal--delete-poll.visibility--hide
+        .modal__title.modal__title--delete-poll Delete Poll?
+        .modal__body.modal__body--delete-poll
+        .modal__close.modal__close--delete-poll Close
   .created-poll__poll
     canvas.created-poll__poll--canvas
     .created-poll__poll--legend

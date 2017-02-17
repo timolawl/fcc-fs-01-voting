@@ -116,7 +116,7 @@ window.onload = function () {
       // share poll click
       //
       // button click (general):
-      Array.prototype.slice.call(document.querySelectorAll('.created-poll__option')).forEach(el => el.addEventListener('click', e => {
+      Array.prototype.forEach.call(document.querySelectorAll('.created-poll__option'), el => el.addEventListener('click', e => {
         switch (e.target.classList[e.target.classList.length-1]) {
           case 'created-poll__option--vote':
             displayModal('vote');
@@ -259,15 +259,15 @@ function displayModal (option) {
   // dim the background
   document.querySelector('.modal__overlay').classList.remove('visibility--hide');
   // close button closes modal and relights background
-  Array.prototype.slice.call(document.querySelectorAll('.modal__close')).forEach(e => e.addEventListener('click', () => {
+  Array.prototype.forEach.call(document.querySelectorAll('.modal__close'), e => e.addEventListener('click', event => {
     document.querySelector('.modal__overlay').classList.add('visibility--hide');
-    Array.prototype.slice.call(document.querySelectorAll('.modal')).forEach(e => e.classList.add('visibility--hide'));
+    Array.prototype.forEach.call(document.querySelectorAll('.modal'), e => e.classList.add('visibility--hide'));
 
   }));
   // same with clicking on the overlay..
   document.querySelector('.modal__overlay').addEventListener('click', () => {
     document.querySelector('.modal__overlay').classList.add('visibility--hide');
-    Array.prototype.slice.call(document.querySelectorAll('.modal')).forEach(e => e.classList.add('visibility--hide'));
+    Array.prototype.forEach.call(document.querySelectorAll('.modal'), e => e.classList.add('visibility--hide'));
   });
 
 
