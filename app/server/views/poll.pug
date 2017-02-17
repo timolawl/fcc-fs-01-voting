@@ -3,16 +3,32 @@ section.created-poll
   .created-poll__options
     .created-poll__title
     button.created-poll__option.created-poll__option--vote(name='Vote' type='button') Vote
+    .modal.modal--vote.visibility--hide
+      .modal__title.modal__title--vote Vote
+      .modal__body.modal__body--vote
+        // drop down menu here
+        .modal__submit Submit
+        .modal__close.modal__close--vote Close
     if loggedIn === 'true'
       button.created-poll__option.created-poll__option--new-option(name='New Option' type='button') New Option
+        .modal.modal--new-option.visibility--hide
+          .modal__title.modal__title--new-option New Option
+          .modal__body.modal__body--new-option
+          .modal__close.modal__close--new-option Close
     button.created-poll__option.created-poll__option--share(name='Share' type='button') Share Poll
-    .modal.modal--share
-      .modal__title.modal__title--share Share this poll
+    .modal.modal--share.visibility--hide
+      .modal__title.modal__title--share Share Poll
       .modal__body.modal__body--share
         input.modal__share--link-box(type='url' readonly value=permalink)
         img(src='/static/img/clipboard.svg').modal__share--clipboard-button
+      .modal__flash-message.display--hide Link copied to clipboard!
+      .modal__close.modal__close--share Close
     if owner === 'true'
       button.created-poll__option.created-poll__option--delete(name='Delete' type='button') Delete Poll
+        .modal.modal--delete-poll.visibility--hide
+          .modal__title.modal__title--delete-poll Delete Poll?
+          .modal__body.modal__body--delete-poll
+          .modal__close.modal__close--delete-poll Close
   .created-poll__poll
     canvas.created-poll__poll--canvas
     .created-poll__poll--legend
@@ -38,3 +54,4 @@ script(src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js')
       }
     });
 include /includes/footer.pug
+.modal__overlay.visibility--hide

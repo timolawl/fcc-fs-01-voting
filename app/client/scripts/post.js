@@ -108,6 +108,36 @@ window.onload = function () {
     }
 
     if (location.pathname.match(/\/poll\/[0-9a-f-]+$/)) {
+
+      // vote button click
+      //
+      // add option click
+      //
+      // share poll click
+      //
+      // button click (general):
+      Array.prototype.slice.call(document.querySelectorAll('.created-poll__option')).forEach(el => el.addEventListener('click', e => {
+        switch (e.target.classList[e.target.classList.length-1]) {
+          case 'created-poll__option--vote':
+            displayModal('vote');
+            break;
+          case 'created-poll__option--new-option':
+            displayModal('new-option');
+            break;
+          case 'created-poll__option--share':
+            displayModal('share');
+            break;
+          case 'created-poll__option--delete':
+            displayModal('delete');
+            break;
+          default:
+            console.log('uh oh...something went wrong.');
+            break;
+        }
+        //  console.log(e.target.classList[e.target.classList.length - 1]);
+      }));
+
+      
       //  console.log('on that nonce page');
 
       //  Chart.defaults.global.elements.arc.backgroundColor = 'rgba(0,0,0,0.3)';
@@ -225,4 +255,59 @@ window.onload = function () {
     // why does having the onclick on the button itself not work?
 };
 
+function displayModal (option) {
+  // dim the background
+  document.querySelector('.modal__overlay').classList.remove('visibility--hide');
+  // close button closes modal and relights background
+  Array.prototype.slice.call(document.querySelectorAll('.modal__close')).forEach(e => e.addEventListener('click', () => {
+    document.querySelector('.modal__overlay').classList.add('visibility--hide');
+    Array.prototype.slice.call(document.querySelectorAll('.modal')).forEach(e => e.classList.add('visibility--hide'));
+
+  }));
+  // same with clicking on the overlay..
+  document.querySelector('.modal__overlay').addEventListener('click', () => {
+    document.querySelector('.modal__overlay').classList.add('visibility--hide');
+    Array.prototype.slice.call(document.querySelectorAll('.modal')).forEach(e => e.classList.add('visibility--hide'));
+  });
+
+
+  switch (option) {
+    case 'vote':
+      console.log('i voted');
+      document.querySelector('.modal--vote').classList.remove('visibility--hide');
+      break;
+    case 'new-option':
+      console.log('creating new option..');
+      document.querySelector('.modal--new-option').classList.remove('visibility--hide');
+      break;
+    case 'share':
+      // show the sharing modal
+      document.querySelector('.modal--share').classList.remove('visibility--hide');
+      document.querySelector('.modal__share--link-box').select();
+      // make the clipboard copy the link // may need clipboard js
+      document.querySelector('.modal__share--clipboard-button').addEventListener('click', copyPollLink); // copies current selection to clipboard
+      break;
+    case 'delete':
+      console.log('delete');
+      document.querySelector('.modal--delete-poll').classList.remove('visibility--hide');
+      break;
+    default:
+      console.log('wat');
+      break;
+  }
+
+  // close modal setup:
+  //
+} 
+
+
+function copyPollLink () {
+// select all to get ready to copy
+  document.querySelector('.modal__share--link-box').select();
+// copy the selection
+  document.execCommand('copy');
+
+  document.querySelector('.modal__flash-message').classList.remove('display--hide')
+
+}
 

@@ -6,6 +6,29 @@ $highlight-color: #f15a29; // was orange
 
 $paths: signup, login, createpoll, mypolls, myaccount;
 
+/********************************************************/
+// helpers
+.visibility--show {
+  visibility: visible !important;
+}
+
+.visibility--hide {
+  visibility: hidden !important;
+}
+
+.display--show {
+  display: initial !important;
+}
+
+.display--hide {
+  display: none !important;
+}
+
+
+/********************************************************/
+
+
+
 *, :before, :after {
     box-sizing: border-box;
     margin: 0;
@@ -398,20 +421,46 @@ button {
   max-width: 640px;
   min-width: 320px;
   height: auto;
-  background: cyan;
+  background: #fff;
   z-index: 100;
   text-align: center;
-  padding: 1rem;
+ // padding: 1rem;
+
+  &__overlay { // overlay for dimming the background
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: black;
+    opacity: 0.3;
+  //  transition: 0.3s;
+    
+  }
+
+  &--vote {
+ //   background: lighten($primary-color, 10%);
+  }
+
+  &--new-option {
+  
+  }
 
   &--share {
     // modal box specific customizations for share
+ //   background: lighten($secondary-color, 20%); 
+  }
+
+  &--delete-poll {
     
   }
 
   &__share {
-    // customized elements for share
+    // customized elements for share specifics
     &--link-box {
-      width: 450px;
+      width: 80%;
+      min-width: 200px;
+      max-width: 450px;
     }
     &--clipboard-button {
       height: 18px;
@@ -425,10 +474,26 @@ button {
   }
 
   &__title {
+    font-size: 1.2rem;
+    padding: 1rem;
+
+    &--vote {
+      background: darken($primary-color, 10%);
+    }
+
+    &--new-option {
+      background: darken($secondary-color, 10%);
+    }
 
     &--share {
       // share specifics
+      background: darken($secondary-color, 10%);
     }
+
+    &--delete-poll {
+      background: darken($highlight-color, 10%);
+    }
+
   }
 
   &__body {
@@ -438,7 +503,35 @@ button {
     }
   }
 
+  &__flash-message {
+    margin: 1rem auto 0;
+    font-size: 0.8rem;
+    color: $highlight-color;
+  } 
+
+  &__close {
+    font-size: 0.8rem;
+    margin: 1rem auto;
+    display: inline-block;
+    padding: 1rem;
+    cursor: pointer;
+    &--vote {
+      background: darken($primary-color, 10%);
+    }
+
+    &--new-option {
+      background: $secondary-color;  
+    }
   
+    &--share {
+      background: $secondary-color;
+    }
+
+    &--delete-poll {
+      background: $highlight-color;
+    }
+
+  }
 
 }
 
