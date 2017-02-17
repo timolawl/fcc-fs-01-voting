@@ -108,13 +108,6 @@ window.onload = function () {
     }
 
     if (location.pathname.match(/\/poll\/[0-9a-f-]+$/)) {
-
-      // vote button click
-      //
-      // add option click
-      //
-      // share poll click
-      //
       // button click (general):
       Array.prototype.forEach.call(document.querySelectorAll('.created-poll__option'), el => el.addEventListener('click', e => {
         switch (e.target.classList[e.target.classList.length-1]) {

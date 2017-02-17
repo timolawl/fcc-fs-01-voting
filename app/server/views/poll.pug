@@ -6,7 +6,10 @@ section.created-poll
     .modal.modal--vote.visibility--hide
       .modal__title.modal__title--vote Vote
       .modal__body.modal__body--vote
-        // drop down menu here
+        // drop down menu here (may want to hold off on this until socket io is established)
+        ul.modal__vote--dropdown-ul
+          li.modal__vote--dropdown-li Test option 1
+          li.modal__vote--dropdown-li Test option 2
         .modal__submit Submit
         .modal__close.modal__close--vote Close
     if loggedIn === 'true'
@@ -14,6 +17,7 @@ section.created-poll
       .modal.modal--new-option.visibility--hide
         .modal__title.modal__title--new-option New Option
         .modal__body.modal__body--new-option
+          .modal__submit Submit
         .modal__close.modal__close--new-option Close
     button.created-poll__option.created-poll__option--share(name='Share' type='button') Share Poll
     .modal.modal--share.visibility--hide
@@ -28,7 +32,9 @@ section.created-poll
       .modal.modal--delete-poll.visibility--hide
         .modal__title.modal__title--delete-poll Delete Poll?
         .modal__body.modal__body--delete-poll
-        .modal__close.modal__close--delete-poll Close
+          .modal__delete--yes Yes
+          .modal__delete--no No
+        // .modal__close.modal__close--delete-poll Close
   .created-poll__poll
     canvas.created-poll__poll--canvas
     .created-poll__poll--legend

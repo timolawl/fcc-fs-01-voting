@@ -455,6 +455,18 @@ button {
     
   }
 
+  &__vote {
+    &--dropdown {
+      &-ul {
+       background: green; 
+      }
+
+      &-li {
+         
+      }
+    }
+  }
+
   &__share {
     // customized elements for share specifics
     &--link-box {
@@ -470,6 +482,26 @@ button {
       &:hover {
         cursor: pointer;
       }
+    }
+  }
+
+  &__delete {
+    &--yes {
+      display: inline-block;
+      padding: 1rem;
+      width: 100px;
+      margin-right: 1.5rem;
+      background: $secondary-color;
+      cursor: pointer;
+    }
+
+    &--no {
+      display: inline-block;
+      padding: 1rem;
+      width: 100px;
+      margin-left: 1.5rem;
+      background: $secondary-color;
+      cursor: pointer;
     }
   }
 
@@ -500,6 +532,9 @@ button {
     margin-top: 1rem;
     &--share {
       
+    }
+    &--delete-poll {
+      margin-bottom: 1rem;
     }
   }
 
