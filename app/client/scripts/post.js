@@ -255,12 +255,15 @@ function displayModal (option) {
   Array.prototype.forEach.call(document.querySelectorAll('.modal__close'), e => e.addEventListener('click', event => {
     document.querySelector('.modal__overlay').classList.add('visibility--hide');
     Array.prototype.forEach.call(document.querySelectorAll('.modal'), e => e.classList.add('visibility--hide'));
+    // rehide the flash message on modal close
+    document.querySelector('.modal__flash-message').classList.add('display--hide');
 
   }));
   // same with clicking on the overlay..
   document.querySelector('.modal__overlay').addEventListener('click', () => {
     document.querySelector('.modal__overlay').classList.add('visibility--hide');
     Array.prototype.forEach.call(document.querySelectorAll('.modal'), e => e.classList.add('visibility--hide'));
+    document.querySelector('.modal__flash-message').classList.add('display--hide');
   });
 
 

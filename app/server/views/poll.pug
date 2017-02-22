@@ -7,26 +7,32 @@ section.created-poll
       .modal__title.modal__title--vote Vote
       .modal__body.modal__body--vote
         // drop down menu here (may want to hold off on this until socket io is established)
-        ul.modal__vote--dropdown-ul
-          li.modal__vote--dropdown-li Test option 1
-          li.modal__vote--dropdown-li Test option 2
+        select.modal__vote--dropdown-ul
+          option.modal__vote--dropdown-li Test option 1
+          option.modal__vote--dropdown-li Test option 2
+        br 
         .modal__submit Submit
+        br
         .modal__close.modal__close--vote Close
     if loggedIn === 'true'
       button.created-poll__option.created-poll__option--new-option(name='New Option' type='button') New Option
       .modal.modal--new-option.visibility--hide
         .modal__title.modal__title--new-option New Option
         .modal__body.modal__body--new-option
+          input.modal__new-option(type='text')
+          br
           .modal__submit Submit
-        .modal__close.modal__close--new-option Close
+          br
+          .modal__close.modal__close--new-option Close
     button.created-poll__option.created-poll__option--share(name='Share' type='button') Share Poll
     .modal.modal--share.visibility--hide
       .modal__title.modal__title--share Share Poll
       .modal__body.modal__body--share
         input.modal__share--link-box(type='url' readonly value=permalink)
         img(src='/static/img/clipboard.svg').modal__share--clipboard-button
-      .modal__flash-message.display--hide Link copied to clipboard!
-      .modal__close.modal__close--share Close
+        br
+        .modal__flash-message.display--hide Link copied to clipboard!
+        .modal__close.modal__close--share Close
     if owner === 'true'
       button.created-poll__option.created-poll__option--delete(name='Delete' type='button') Delete Poll
       .modal.modal--delete-poll.visibility--hide

@@ -438,12 +438,13 @@ button {
     
   }
 
+  // customizations for each modal:
   &--vote {
  //   background: lighten($primary-color, 10%);
   }
 
   &--new-option {
-  
+ 
   }
 
   &--share {
@@ -458,13 +459,20 @@ button {
   &__vote {
     &--dropdown {
       &-ul {
-       background: green; 
+     //  background: green; 
       }
 
       &-li {
          
       }
     }
+  }
+
+  // specifics for each selection:
+  &__new-option {
+    width: 80%;
+    min-width: 200px;
+    max-width: 450px;
   }
 
   &__share {
@@ -489,22 +497,29 @@ button {
     &--yes {
       display: inline-block;
       padding: 1rem;
-      width: 100px;
+   //   width: 75px;
       margin-right: 1.5rem;
       background: $secondary-color;
       cursor: pointer;
+      &:hover {
+        background: darken($secondary-color, 10%);
+      }
     }
 
     &--no {
       display: inline-block;
       padding: 1rem;
-      width: 100px;
+    // width: 75px;
       margin-left: 1.5rem;
       background: $secondary-color;
       cursor: pointer;
+      &:hover {
+        background: darken($secondary-color, 10%);
+      }
     }
   }
 
+  // generics
   &__title {
     font-size: 1.2rem;
     padding: 1rem;
@@ -541,8 +556,20 @@ button {
   &__flash-message {
     margin: 1rem auto 0;
     font-size: 0.8rem;
-    color: $highlight-color;
+    color: darken($highlight-color, 10%);
   } 
+
+  &__submit {
+    font-size: 0.8rem;
+    display: inline-block;
+    margin: 1rem auto 0;
+    padding: 1rem;
+    background: $primary-color;
+    cursor: pointer;
+    &:hover {
+      background: darken($primary-color, 10%);
+    }
+  }
 
   &__close {
     font-size: 0.8rem;
@@ -550,22 +577,27 @@ button {
     display: inline-block;
     padding: 1rem;
     cursor: pointer;
+    background: $secondary-color;
+    &:hover {
+      background: darken($secondary-color, 10%);
+    }
+    
     &--vote {
-      background: darken($primary-color, 10%);
+    //  background: darken($primary-color, 10%);
     }
 
     &--new-option {
-      background: $secondary-color;  
+    //  background: $secondary-color;  
     }
   
     &--share {
-      background: $secondary-color;
+    //  background: $secondary-color;
     }
 
     &--delete-poll {
-      background: $highlight-color;
+    //  background: $highlight-color;
     }
-
+    
   }
 
 }
