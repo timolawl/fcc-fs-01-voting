@@ -8,6 +8,7 @@ section.created-poll
       .modal__body.modal__body--vote
         // drop down menu here (may want to hold off on this until socket io is established)
         select.modal__vote--dropdown-ul
+          option.modaL__vote--dropdown-li(selected disabled hidden) Poll Options
           option.modal__vote--dropdown-li Test option 1
           option.modal__vote--dropdown-li Test option 2
         br 
@@ -19,10 +20,11 @@ section.created-poll
       .modal.modal--new-option.visibility--hide
         .modal__title.modal__title--new-option New Option
         .modal__body.modal__body--new-option
-          input.modal__new-option(type='text')
-          br
-          .modal__submit Submit
-          br
+          form.modal__form.modal__form--new-option(method='post')
+            input.modal__new-option--option(type='text' placeholder='Type new option here')
+            br
+            input.modal__submit.modal__submit--new-option(type='submit' value='Submit')
+            br
           .modal__close.modal__close--new-option Close
     button.created-poll__option.created-poll__option--share(name='Share' type='button') Share Poll
     .modal.modal--share.visibility--hide

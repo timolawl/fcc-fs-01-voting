@@ -56,6 +56,13 @@ button {
   outline: none; // removes default button highlighting
 }
 
+input {
+  padding: 0 0.5rem;
+  &[type='submit'] {
+    border: none;
+  }
+}
+
 /********************************************************/
 // main nav and banner
 .main-nav {
@@ -232,7 +239,7 @@ button {
 
 
 /********************************************************/
-// form
+// form (mainly for pollfom and registration, I believe; modal form separate--see below)
 .form {
     width: 50%;
     max-width: 1000px;
@@ -245,7 +252,7 @@ button {
 
     &__input {
         margin: 0 auto;
-        padding: 0 0.5rem;
+    //    padding: 0 0.5rem;
         height: 1.5rem;
         width: 100%;
         border: 1px solid $secondary-color;
@@ -470,9 +477,11 @@ button {
 
   // specifics for each selection:
   &__new-option {
-    width: 80%;
-    min-width: 200px;
-    max-width: 450px;
+    &--option {
+      width: 80%;
+      min-width: 200px;
+      max-width: 450px;
+    }
   }
 
   &__share {
@@ -550,6 +559,12 @@ button {
     }
     &--delete-poll {
       margin-bottom: 1rem;
+    }
+  }
+
+  &__form {
+    &--new-option {
+      
     }
   }
 
