@@ -2,19 +2,20 @@ include /includes/header.pug
 section.created-poll 
   .created-poll__options
     .created-poll__title
-    button.created-poll__option.created-poll__option--vote(name='Vote' type='button') Vote
-    .modal.modal--vote.visibility--hide
-      .modal__title.modal__title--vote Vote
-      .modal__body.modal__body--vote
-        // drop down menu here (may want to hold off on this until socket io is established)
-        select.modal__vote--dropdown-ul
-          option.modaL__vote--dropdown-li(selected disabled hidden) Poll Options
-          option.modal__vote--dropdown-li Test option 1
-          option.modal__vote--dropdown-li Test option 2
-        br 
-        .modal__submit Submit
-        br
-        .modal__close.modal__close--vote Close
+    if loggedIn === 'true'
+      button.created-poll__option.created-poll__option--vote(name='Vote' type='button') Vote
+      .modal.modal--vote.visibility--hide
+        .modal__title.modal__title--vote Vote
+        .modal__body.modal__body--vote
+          // drop down menu here (may want to hold off on this until socket io is established)
+          select.modal__vote--dropdown-ul
+            option.modaL__vote--dropdown-li(selected disabled hidden) Poll Options
+            option.modal__vote--dropdown-li Test option 1
+            option.modal__vote--dropdown-li Test option 2
+          br 
+          .modal__submit Submit
+          br
+          .modal__close.modal__close--vote Close
     if loggedIn === 'true'
       button.created-poll__option.created-poll__option--new-option(name='New Option' type='button') New Option
       .modal.modal--new-option.visibility--hide

@@ -256,17 +256,22 @@ function displayModal (option) {
     document.querySelector('.modal__overlay').classList.add('visibility--hide');
     Array.prototype.forEach.call(document.querySelectorAll('.modal'), e => e.classList.add('visibility--hide'));
     // rehide the flash message on modal close
-    document.querySelector('.modal__flash-message').classList.add('display--hide');
+    if (document.querySelector('.modal--share'))
+      document.querySelector('.modal__flash-message').classList.add('display--hide');
     // clear new-option input field on modal close
-    document.querySelector('.modal__form--new-option').reset();
+    if (document.querySelector('.modal--new-option'))
+      document.querySelector('.modal__form--new-option').reset();
 
   }));
   // same with clicking on the overlay..
   document.querySelector('.modal__overlay').addEventListener('click', () => {
     document.querySelector('.modal__overlay').classList.add('visibility--hide');
     Array.prototype.forEach.call(document.querySelectorAll('.modal'), e => e.classList.add('visibility--hide'));
-    document.querySelector('.modal__flash-message').classList.add('display--hide');
-    document.querySelector('.modal__form--new-option').reset();
+    if (document.querySelector('.modal--share'))
+      document.querySelector('.modal__flash-message').classList.add('display--hide');
+
+    if (document.querySelector('.modal--new-option'))
+      document.querySelector('.modal__form--new-option').reset();
   });
 
 
