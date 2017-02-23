@@ -37,6 +37,7 @@ function controller () {
     // but direct queries is not necessary as this individual is the creator.
     // still, a local variable passed saying that this poll was just created would help..
     res.redirect('/poll/' + newPoll.permalink); // , { permalink: newPoll.permalink });
+    // the above option should go through the normal behavior of going through controller.renderpoll.. check to make sure later.
 
 /*
         
@@ -61,24 +62,18 @@ function controller () {
       else {
         // tease out data first..
         const creator = poll._creator;
+        const pollTitle = poll.title;
         const voteCount = poll.options.map(x => x.voteCount);
         const optionText = poll.options.map(x => x.optionText);
+
+
 
         // ideas for passing chart js data to client:
         // 1. if pug allows for crafting a javascript segment, then this would be the best option, but it appears that this cannot be done..(it's not recommended to make a JS segment using an HTML templater)
         // 2. write code here and somehow append to the body of the template? Is this possible?
         // 3. Ajax call query of the data from the server? It's not like I can't pass the data to the served page; it's just that I can't seem to make use of it without explicitly having it show up on the page somewhere.
 
-/*
-        const data = {
-          labels: optionText,
-          datasets: [
-            {
-              data: voteCount
-            }
-          ]
-        };
-        */
+                
         // need to actually move this to client-side because chart js is for client rendering
         // render the page then populate with chart after? need the HTML hook..
         // data can be passed through local variables but charting it seems to require that the data be present on the page before it can be charted
@@ -92,6 +87,7 @@ function controller () {
 
         console.log('Retrieving poll...');
         console.log(creator);
+        console.log(pollTitle);
        // console.log(req.user.id);
         console.log(voteCount);
         console.log(optionText);
@@ -102,11 +98,11 @@ function controller () {
 
         if (req.isAuthenticated()) {
           if (req.user.id && req.user.id === creator) {
-            res.render('poll', { owner: 'true', loggedIn: 'true', permalink: permalink, path: 'poll' });
+            res.render('poll', { owner: 'true', loggedIn: 'true', permalink: permalink, path: 'poll', optionText: optionText, voteCount: voteCount, pollTitle: pollTitle });
           }
-          else res.render('poll', { owner: 'false', loggedIn: 'true', permalink: permalink, path: 'poll' });
+          else res.render('poll', { owner: 'false', loggedIn: 'true', permalink: permalink, path: 'poll', optionText: optionText, voteCount: voteCount, pollTite: pollTitle });
         }
-        else res.render('poll', { owner: 'false', loggedIn: 'false', permalink: permalink, path: 'poll' });
+        else res.render('poll', { owner: 'false', loggedIn: 'false', permalink: permalink, path: 'poll', optionText: optionText, voteCount: voteCount, pollTitle: pollTitle });
         
         /*
 

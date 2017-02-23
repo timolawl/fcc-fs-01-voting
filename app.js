@@ -11,6 +11,12 @@ const path = require('path');
 const express = require('express');
 const app = express();
 
+// socket io requires
+const server = require('http').createServer(app);
+const io = require('socket.io')(server);
+
+// server.listen(80);
+
 // other base tech stack requires
 const favicon = require('serve-favicon');
 
@@ -29,7 +35,7 @@ const compression = require('compression'); // where am I using this?
 // authentication and its dependency requires
 const bodyParser = require('body-parser');
 const flash = require('connect-flash');
-const session = require('express-session');
+const session = require('express-session'); // session data is not saved in the cookie itself, just the session ID. Session data is stored server-side.
 const MongoStore = require('connect-mongo')(session); // move store from mem to mongo
 const passport = require('passport');
 
@@ -69,13 +75,17 @@ app.use(favicon(path.join(__dirname, '/static/img/favicon.ico')));
 
 app.use(morgan('dev')); // log every request to console.
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(session({
+
+// configure the session
+const sessionMiddleware = session({
     secret: config.sessionSecret,
     store: new MongoStore({ mongooseConnection: mongoose.connection }),
     resave: false,
     saveUninitialized: false, // no ability for non-authorized; no reason to save.
     cookie: { secure: 'auto' } // didn't specify true as working between dev/prod. auto automatically determines, however if set on https then going to http will not show cookie.
-}));
+});
+
+app.use(sessionMiddleware);
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -83,9 +93,33 @@ app.use(flash());
 
 
 routes(app, passport); // apparently it doesn't matter if this is before or after the port is set...
-
+/*
 app.listen(app.get('port'), () => {
-    console.log('Node app is running on port', app.get('port'));
+  console.log('Node app is running on port', app.get('port'));
+});
+*/
+
+
+// set up socket io: http://stackoverflow.com/questions/13095418/how-to-use-passport-with-express-and-socket-io#24859515
+//
+// problem is that the session becomes read only, but that should be fine (assuming it doesn't mess with the logout or login features) because the session cookie only stores the ID.
+// but I still need to see if there's even a reason for having socket interact with the session.
+//
+
+io.use(function(socket, next) {
+  sessionMiddleware(socket.request, {}, next);
 });
 
+
+
+
+server.listen(app.get('port'), () => {
+  console.log('Socket.io is listening on port', app.get('port'));
+});
+
+io.on('connection', function(socket) {
+  console.log('test socket');
+  var userID = socket.request.session.passport.user;
+  console.log(`Your user ID is ${userID}`);
+});
 

@@ -1,5 +1,12 @@
 'use strict';
 
+// socket io -- the cdnjs script is in the HTML template above this script file
+var socket = io.connect('http://localhost:5000'); // hardcoded, it seems
+//socket.on('news', function (data) {
+  
+//});
+
+
 
 
 // set up dynamic adding/removing of options from /pollform
@@ -130,6 +137,53 @@ window.onload = function () {
         //  console.log(e.target.classList[e.target.classList.length - 1]);
       }));
 
+      // on vote submit, pass along the selected option and with socket io update the db
+      // emit the event so that it updates...
+      // can likely form action with a created function! to be done.
+
+      
+      // on new-option submit
+
+
+
+      var ctx = document.querySelector('.created-poll__poll--canvas');
+      var myChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+          labels: optionText,
+          datasets: [{
+            data: voteCount,
+            backgroundColor: [
+			  '#8DD3C7',
+			  '#FFFFB3',
+			  '#BEBADA',
+			  '#FB8072',
+			  '#80B1D3',
+			  '#FDB462',
+			  '#B3DE69',
+			  '#FCCDE5',
+			  '#D9D9D9',
+			  '#BC80BD',
+			  '#CCEBC5',
+			  '#FFED6F'
+            ]
+          }]
+        },
+        options: {
+          title: {
+            display: false,
+            fontSize: 14,
+            text: pollTitle
+          },
+          legend: {
+            display: true,
+            position: 'bottom'
+          }
+        }
+      
+      });
+      
+     
       
       //  console.log('on that nonce page');
 
@@ -146,9 +200,11 @@ window.onload = function () {
       // if more than 12 just repeat the colors yolo.
 
       // title simply assign as such:
-      let pollTitle = 'What is your favorite book series?';
+      // let pollTitle = 'What is your favorite book series?';
       document.querySelector('.created-poll__title').textContent = pollTitle;
+      
 
+/*
       const currentLabels = [                
                 'The Chronicles of Narnia',
                 'Harry Potter',
@@ -165,7 +221,7 @@ window.onload = function () {
       ];
 
       const currentData = [1,2,3,4,5,6,7,8,9,10,11,12];
-
+*/
       // legend is a list, will need to convert to list and then append:
         
      //   document.querySelector('.created-poll__poll--legend') = // set equal to the created list?
@@ -201,10 +257,12 @@ window.onload = function () {
 
         legend.appendChild(unorderedList);
       */
-
+/*
         var ctx = document.querySelector('.created-poll__poll--canvas');
         var myChart = new Chart(ctx, {
             type: 'pie',
+            data: JSON.parse(localData),
+            
             data: {
               
               labels: currentLabels,              
@@ -242,7 +300,7 @@ window.onload = function () {
           
         });
 
-
+*/
     }
 
     // why does having the onclick on the button itself not work?
@@ -278,6 +336,21 @@ function displayModal (option) {
   switch (option) {
     case 'vote':
       console.log('i voted');
+      // dynamically set up the vote modal (populate the options with the actual options)
+      // we know that there are at the very least two options, so populate those first
+      // would this make it too slow as it's always dynamic? really minor tbh
+
+      document.querySelector('.modal__vote--dropdown-li:nth-child(2)').textContent = optionText[0];
+      document.querySelector('.modal__vote--dropdown-li:nth-child(3)').textContent = optionText[1];
+      // add any additional options remaining:
+      let numberOfOptions = 2;
+      while (optionText[numberOfOptions]) {
+        let nextOption = document.createElement('option');
+        nextOption.classList.add('modal__vote--dropdown-li');
+        nextOption.textContent = optionText[numberOfOptions];
+        document.querySelector('.modal__vote--dropdown-ul').appendChild(nextOption);
+        numberOfOptions++;
+      }
       document.querySelector('.modal--vote').classList.remove('visibility--hide');
       break;
     case 'new-option':
@@ -312,6 +385,11 @@ function copyPollLink () {
   document.execCommand('copy');
 
   document.querySelector('.modal__flash-message').classList.remove('display--hide')
+
+}
+
+
+function onSubmit (submissionType) {
 
 }
 
