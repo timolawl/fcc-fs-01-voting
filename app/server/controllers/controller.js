@@ -20,11 +20,11 @@ function controller () {
 
     
     console.log('New poll created:');
-    console.log(newPoll._creator);
-    console.log(newPoll.dateCreated);
-    console.log(newPoll.title);
-    console.log(newPoll.options);
-    console.log(newPoll.permalink);
+   // console.log(newPoll._creator);
+   // console.log(newPoll.dateCreated);
+   // console.log(newPoll.title);
+   // console.log(newPoll.options);
+   //  console.log(newPoll.permalink);
 
     
 

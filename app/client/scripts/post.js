@@ -114,7 +114,25 @@ window.onload = function () {
           parentNode.appendChild(newLink);
         }
       });
+    }
+
+    if (location.pathname.match(/\/mypolls$/)) {
+      socket.emit('list my polls', {});
       
+      socket.on('populate my polls', function (data) {
+        let parentNode = document.querySelector('.polls');
+
+        for (let i = 0; i < data.titles.length; i++) {
+          let newDiv = document.createElement('div');
+          newDiv.className = 'poll__element--text';
+          newDiv.textContent = data.titles[i];
+          let newLink = document.createElement('a');
+          newLink.className = 'poll__element--link';
+          newLink.href = location.protocol + '//' + location.host + '/poll/' + data.permalinks[i];
+          newLink.appendChild(newDiv);
+          parentNode.appendChild(newLink);
+        }
+      });
 
     }
 

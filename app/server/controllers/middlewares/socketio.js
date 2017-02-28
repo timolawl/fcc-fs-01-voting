@@ -110,13 +110,24 @@ module.exports = io => {
     });
 
     socket.on('list all polls', function (data) {
-      Poll.find().sort('-dateCreated').exec((err, polls) => {
-        console.log(polls);
+      Poll.find().sort({ dateCreated: -1 }).exec((err, polls) => {
+      //  console.log(polls);
         let pollNames = polls.map(x => x.title);
         let pollLinks = polls.map(x => x.permalink);
         // need the permalink and the title.
         socket.emit('populate all polls', { titles: pollNames, permalinks: pollLinks });
       });
+    });
+
+    socket.on('list my polls', function (data) {
+      Poll.find({ _creator: userID }).sort({ dateCreated: -1 }).exec((err, polls) => {
+      //  console.log(polls);
+        let pollNames = polls.map(x => x.title);
+        let pollLinks = polls.map(x => x.permalink);
+        // need the permalink and the title.
+        socket.emit('populate my polls', { titles: pollNames, permalinks: pollLinks });
+      });
+
     });
 
   });
