@@ -96,10 +96,28 @@ window.onload = function () {
 
 /****************/    
 
+    if (location.pathname.match(/\/$/)) {
+      // populate the page with currently active charts by date.
+      socket.emit('list all polls', {});
+      
+      socket.on('populate all polls', function (data) {
+        let parentNode = document.querySelector('.polls');
 
-    // should separate out the functions based on path?
-    // will likely need to refactor this as this seems semantically equivalent to having function declarations within conditionals.
-    // delete function
+        for (let i = 0; i < data.titles.length; i++) {
+          let newDiv = document.createElement('div');
+          newDiv.className = 'poll__element--text';
+          newDiv.textContent = data.titles[i];
+          let newLink = document.createElement('a');
+          newLink.className = 'poll__element--link';
+          newLink.href = location.href + 'poll/' + data.permalinks[i];
+          newLink.appendChild(newDiv);
+          parentNode.appendChild(newLink);
+        }
+      });
+      
+
+    }
+
     if (location.pathname.match(/\/createpoll\/?/i)) { // why does this have only 1 slash?
 
         let buttonCounter = 3; // initial setting since there's already 2 initially.
@@ -154,13 +172,6 @@ window.onload = function () {
       // better to set up socket io rooms and have the updates broadcast only to those in the same room or to have it such that broadcasts regardless of room but only those in the room will it have any effect? Rooming seems more organized.
       
 
-      /*
-      socket.join(location.pathname.slice(1), err => {
-        if (err) throw err;
-      });
-      */
-
-
       // on vote submit, pass along the selected option and with socket io update the db
       // emit the event so that it updates...
       // eventlistener for form submissions:
@@ -177,28 +188,6 @@ window.onload = function () {
         socket.emit('add option', { option: el_option.firstChild.value, path: location.pathname.slice(6) });
       });
         
-      //  console.log('something has been submitted.');
-       // console.log(el.classList);
-       // console.log(el.firstChild.value);
-        
-        
-
-
-          // gray out the vote button for this user. (add this poll as already voted by this user, or add it to the users who have voted on this poll and prevent that way
-          //
-          // can't do it this way only because someone can leave the page and come back and that's it.
-          // need to do it at the db level.
-         // document.querySelector('.created-poll__option--vote').disabled = true;
-          // either way needs to modify the data store to remember this.
-        // the idea is that security measures cannot be front end because those elements can be modified using chrome tools, for example..
-        // but if that's true, what to prevent users from modifying the socket emit value?
-        // delete entire poll:
-      /*
-      document.querySelector('.modal__delete--yes').addEventListener('click', e => {
-        socket.emit('delete', { path: location.pathname.slice(6) });
-      });
-      */
-
       // draw the chart
       var ctx = document.querySelector('.created-poll__poll--canvas');
       var myChart = new Chart(ctx, {
@@ -272,7 +261,6 @@ window.onload = function () {
       // if more than 12 just repeat the colors yolo.
 
       // title simply assign as such:
-      // let pollTitle = 'What is your favorite book series?';
       document.querySelector('.created-poll__title').textContent = pollTitle;
       
       // populate vote options once; will need to revisit later for the new option part
@@ -287,106 +275,9 @@ window.onload = function () {
         document.querySelector('.modal__vote--dropdown-ul').appendChild(nextOption);
       }
 
-/*
-      const currentLabels = [                
-                'The Chronicles of Narnia',
-                'Harry Potter',
-                'Dragonlance',
-                'Forgotten Realms',
-                'Star Wars',
-                'Magic: The Gathering',
-                'Warcraft',
-                'Starcraft',
-                'Dune',
-                'Dan Brown\'s books',
-                'Hi Dave',
-                'I need more book series'
-      ];
-
-      const currentData = [1,2,3,4,5,6,7,8,9,10,11,12];
-*/
       // legend is a list, will need to convert to list and then append:
         
-     //   document.querySelector('.created-poll__poll--legend') = // set equal to the created list?
-      /*
-        // create a temporary list to try:
-        const sampleArray = [
-                'The Chronicles of Narnia',
-                'Harry Potter',
-                'Dragonlance',
-                'Forgotten Realms',
-                'Star Wars',
-                'Magic: The Gathering',
-                'Warcraft',
-                'Starcraft',
-                'Dune',
-                'Dan Brown\'s books',
-                'Hi Dave',
-                'I need more book series'
-              ];
-
-        const unorderedList = document.createElement('ul');
-        // for each item in the array, add to li, then append?
-          
-        for (let i = 0; i < sampleArray.length; i++) {
-          let el = document.createElement('li');
-          el.textContent = sampleArray[i];
-          unorderedList.append(el);
-        }
-
-        const legend = document.querySelector('.created-poll__poll--legend');
-
-        while (legend.firstChild) legend.removeChild(legend.firstChild);
-
-        legend.appendChild(unorderedList);
-      */
-/*
-        var ctx = document.querySelector('.created-poll__poll--canvas');
-        var myChart = new Chart(ctx, {
-            type: 'pie',
-            data: JSON.parse(localData),
-            
-            data: {
-              
-              labels: currentLabels,              
-              datasets: [{
-                data: currentData,
-                backgroundColor: [
-                  '#8DD3C7',
-                  '#FFFFB3',
-                  '#BEBADA',
-                  '#FB8072',
-                  '#80B1D3',
-                  '#FDB462',
-                  '#B3DE69',
-                  '#FCCDE5',
-                  '#D9D9D9',
-                  '#BC80BD',
-                  '#CCEBC5',
-                  '#FFED6F'
-                ]
-              }] 
-            },
-          
-            options: {
-              title: {
-                display: false,
-                fontSize: 14,
-                text: pollTitle
-              },
-              legend: {
-                display: true,
-                position: 'bottom'
-              //  boxWidth: 10
-              }
-            }
-          
-        });
-
-*/
     }
-
-    // why does having the onclick on the button itself not work?
 };
 
 function displayModal (option) {
@@ -412,21 +303,6 @@ function displayModal (option) {
     */
 
   }));
-  /*
-  // same with clicking on the overlay..
-  document.querySelector('.modal__overlay').addEventListener('click', () => {
-    document.querySelector('.modal__overlay').classList.add('visibility--hide');
-    Array.prototype.forEach.call(document.querySelectorAll('.modal'), e => e.classList.add('visibility--hide'));
-    if (document.querySelector('.modal--share'))
-      document.querySelector('.modal__flash-message').classList.add('display--hide');
-
-    if (document.querySelector('.modal--new-option'))
-      document.querySelector('.modal__form--new-option').reset();
-  });
-*/
-
-  
-  
 
   switch (option) {
     case 'vote':
@@ -471,24 +347,5 @@ function copyPollLink () {
   document.querySelector('.modal__flash-message').classList.remove('display--hide')
 
 }
-
-/*
-// submit function for modal submit buttons, with parameter specifying which button was pressed
-function onSubmit (form) {
-  console.log('this is the option submitted: ' + form.option);
-  socket.emit('submit', function (data) { // or socket.emit...
-    
-    
-  });
-  // on submit, I need to modify the mongoose db so that it is reflected there using socket io instead of ajax
-//
-}
-
-*/
-
-// form submission -> prevent default (not changing page)
-// socket io the information
-// update from there
-// problem is updating the db from the main app section..
 
 

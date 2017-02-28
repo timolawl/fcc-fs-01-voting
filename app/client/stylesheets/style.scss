@@ -332,7 +332,11 @@ input {
 /********************************************************/
 // poll details on front page (also can be for "my polls" section)
 .poll { // may want to rename this as this is only the list elements of the polls
-    &__element {
+  &__element {
+
+    &--link {
+        position: relative;
+        display: block;
         width: 80%;
         // will need a min width once the details are filled in
         height: 50px;
@@ -343,6 +347,15 @@ input {
             background: lighten($secondary-color, 25%);
         }
     }
+    &--text {
+      text-align: center;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    
+    }
+  }
 }
 
 

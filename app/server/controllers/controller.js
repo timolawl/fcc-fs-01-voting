@@ -10,6 +10,7 @@ function controller () {
   this.createpoll = (req, res, next) => {
     const newPoll = new Poll();
     newPoll._creator = req.user.id;
+    // newPoll.dateCreated = Date.now(); // not needed because it will default the value
     newPoll.title = req.body.name;
     let optionsLength = req.body.options.length;
     for (let i = 0; i < optionsLength; i++) {
@@ -20,6 +21,7 @@ function controller () {
     
     console.log('New poll created:');
     console.log(newPoll._creator);
+    console.log(newPoll.dateCreated);
     console.log(newPoll.title);
     console.log(newPoll.options);
     console.log(newPoll.permalink);

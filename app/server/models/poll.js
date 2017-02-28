@@ -12,6 +12,7 @@ const optionSchema = new mongoose.Schema({
 */
 const pollSchema = new mongoose.Schema({
   _creator: String,
+  dateCreated: { type: Date, default: Date.now },
   title: { type: String, required: true },
 //  options: [{ type: mongoose.Schema.ObjectId, ref: 'Option' }],
 //  options: [optionSchema],

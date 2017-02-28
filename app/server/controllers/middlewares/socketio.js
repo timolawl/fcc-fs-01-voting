@@ -90,8 +90,7 @@ module.exports = io => {
           }
           io.in(data.path).emit('update poll', { pollOptions: poll.options });
         }
-      });
-      
+      }); 
     });
     
     socket.on('vote check', function (data) {
@@ -108,6 +107,16 @@ module.exports = io => {
         }
       });
 
+    });
+
+    socket.on('list all polls', function (data) {
+      Poll.find().sort('-dateCreated').exec((err, polls) => {
+        console.log(polls);
+        let pollNames = polls.map(x => x.title);
+        let pollLinks = polls.map(x => x.permalink);
+        // need the permalink and the title.
+        socket.emit('populate all polls', { titles: pollNames, permalinks: pollLinks });
+      });
     });
 
   });
