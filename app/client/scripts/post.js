@@ -184,7 +184,6 @@ window.onload = function () {
             console.log('uh oh...something went wrong.');
             break;
         }
-        //  console.log(e.target.classList[e.target.classList.length - 1]);
       }));
 
       // better to set up socket io rooms and have the updates broadcast only to those in the same room or to have it such that broadcasts regardless of room but only those in the room will it have any effect? Rooming seems more organized.
@@ -253,7 +252,7 @@ window.onload = function () {
         myChart.data.datasets[0].data = voteCount;
         myChart.data.labels = optionText;
         myChart.update();
-        console.log('updating poll..');
+       // console.log('updating poll..');
       });
 
       socket.on('voted', function (data) {
@@ -263,9 +262,6 @@ window.onload = function () {
       });
 
       
-      
-      //  console.log('on that nonce page');
-
       //  Chart.defaults.global.elements.arc.backgroundColor = 'rgba(0,0,0,0.3)';
      //   Chart.defaults.global.elements.arc.borderColor = 'lightgray'; //'rgba(0,0,0,0.5)';
        // Chart.defaults.global.elements.arc.borderWidth = 2;
@@ -292,9 +288,6 @@ window.onload = function () {
         nextOption.textContent = optionText[i];
         document.querySelector('.modal__vote--dropdown-ul').appendChild(nextOption);
       }
-
-      // legend is a list, will need to convert to list and then append:
-        
     }
 };
 
@@ -314,24 +307,16 @@ function displayModal (option) {
     // rehide the flash message on modal close
     if (document.querySelector('.modal--share'))
       document.querySelector('.modal__flash-message').classList.add('display--hide');
-    // clear new-option input field on modal close
-    /*
-    if (document.querySelector('.modal--new-option'))
-      document.querySelector('.modal__form--new-option').reset();
-    */
-
   }));
 
   switch (option) {
     case 'vote':
-      console.log('i voted');
       // dynamically set up the vote modal (populate the options with the actual options)
       // we know that there are at the very least two options, so populate those first
       // would this make it too slow as it's always dynamic? really minor tbh
       document.querySelector('.modal--vote').classList.remove('visibility--hide');
       break;
     case 'new-option':
-     //  console.log('creating new option..');
       document.querySelector('.modal__form--new-option').reset(); // put reset at open
       document.querySelector('.modal--new-option').classList.remove('visibility--hide');
       break;
@@ -343,16 +328,12 @@ function displayModal (option) {
       document.querySelector('.modal__share--clipboard-button').addEventListener('click', copyPollLink); // copies current selection to clipboard
       break;
     case 'delete':
-      console.log('delete');
       document.querySelector('.modal--delete-poll').classList.remove('visibility--hide');
       break;
     default:
       console.log('wat');
       break;
   }
-
-  // close modal setup:
-  //
 } 
 
 

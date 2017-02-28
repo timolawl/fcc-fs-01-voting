@@ -7,17 +7,11 @@ module.exports = io => {
   
 
   io.on('connection', function(socket) {
-    console.log('test socket');
     // this only works if the user is already registered and logged in:
     if (socket.request.session.passport) {
       var userID = socket.request.session.passport.user;
-      console.log(`Your user ID is ${userID}`);
+     // console.log(`Your user ID is ${userID}`);
     }
-      /*
-    socket.on('submit', function (data) {
-      console.log(data);
-    });
-  */
 
     // problem with this approach is that a client is on a page that doesn't require rooms, client remains connected to an old room...
     // perhaps the proper approach is to leave any rooms upon joining the non-room pages
@@ -26,7 +20,6 @@ module.exports = io => {
     socket.on('leave room', function (data) {
       if (socket.room !== undefined)
         socket.leave(socket.room);
-   //   console.log('now in: ' + data.path);
     });
 
     socket.on('change room', function (data) {
@@ -34,7 +27,6 @@ module.exports = io => {
         socket.leave(socket.room);
       socket.room = data.room;
       socket.join(socket.room);
-  //    console.log('now in: ' + socket.room);
     });
     
     socket.on('add vote', function (data) {
@@ -47,6 +39,7 @@ module.exports = io => {
             if (poll.options[i].optionText === data.vote) {
               poll.options[i].voteCount++;
               poll.voters.push(userID);
+              poll.lastActivity = new Date();
               poll.save(err => {
                 if (err) throw err;
               });
@@ -54,10 +47,8 @@ module.exports = io => {
             }
           }
 
-   //       console.log('joined room: ' + data.path);
           // http://stackoverflow.com/questions/10058226/send-response-to-all-clients-except-sender-socket-io
           io.in(data.path).emit('update poll', { pollOptions: poll.options });
-//          console.log('data should have been emitted...');
         }
       });
     });
@@ -74,6 +65,7 @@ module.exports = io => {
             if (poll.options[i].optionText === data.option) { // currently case matters
               poll.options[i].voteCount++;
               poll.voters.push(userID);
+              poll.lastActivity = new Date();
               poll.save(err => {
                 if (err) throw err;
               });
@@ -110,8 +102,7 @@ module.exports = io => {
     });
 
     socket.on('list all polls', function (data) {
-      Poll.find().sort({ dateCreated: -1 }).exec((err, polls) => {
-      //  console.log(polls);
+      Poll.find().sort({ lastActivity: -1 }).exec((err, polls) => {
         let pollNames = polls.map(x => x.title);
         let pollLinks = polls.map(x => x.permalink);
         // need the permalink and the title.
@@ -120,8 +111,7 @@ module.exports = io => {
     });
 
     socket.on('list my polls', function (data) {
-      Poll.find({ _creator: userID }).sort({ dateCreated: -1 }).exec((err, polls) => {
-      //  console.log(polls);
+      Poll.find({ _creator: userID }).sort({ lastActivity: -1 }).exec((err, polls) => {
         let pollNames = polls.map(x => x.title);
         let pollLinks = polls.map(x => x.permalink);
         // need the permalink and the title.

@@ -1,8 +1,5 @@
 'use strict';
 
-//const uuid = require('node-uuid'); // looks like I planned on using this for poll ID
-//var nonce;
-
 const Controller = require('./controllers/controller');
 
 module.exports = (app, passport) => {
@@ -73,29 +70,17 @@ module.exports = (app, passport) => {
         });
 */
 
-    app.route('/mypolls') // redirect here instead after login?
+    app.route('/mypolls')
         .get(isLoggedIn, (req, res) => {
             // no need to join a socket room here because at this page, nothing will change at this level
             res.render('mypolls', { loggedIn: 'true', path: 'mypolls' }); // use index? again, using loggedIn for setting the right nav bar, but there could be a cleaner way of doing this.
         });
 
     app.route(/^\/poll\/[0-9a-f-]+$/) // nonce path; I'll need to retrieve the poll from this permalink somehow... this also needs to verify the existence of the path in the server, otherwise display error.
-        /*
-        .get((req, res) => {
-            res.render('poll', { path: 'poll',
-                            // retrieve everything from db.
-                             }); // is the path right?
-        });
-        */
         .get(controller.renderpoll)
         
         .delete(controller.deletepoll);
-/*
-    app.route('/404')
-      .get((req, res) => {
-        res.render('404');
-      });
-        */
+
     app.use((req, res) => {
       if (req.isAuthenticated())
         res.render('404', { loggedIn: 'true', path: '404' });
