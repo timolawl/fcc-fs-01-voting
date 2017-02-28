@@ -7,14 +7,14 @@ section.created-poll
       .modal.modal--vote.visibility--hide
         .modal__title.modal__title--vote Vote
         .modal__body.modal__body--vote
-          // drop down menu here (may want to hold off on this until socket io is established)
-          select.modal__vote--dropdown-ul
-            option.modal__vote--dropdown-li(selected disabled hidden) Poll Options
-            option.modal__vote--dropdown-li Test option 1
-            option.modal__vote--dropdown-li Test option 2
-          br 
-          .modal__submit Submit
-          br
+          form.modal__form.modal__form--vote(method='post')
+            select.modal__vote--dropdown-ul
+              option.modal__vote--dropdown-li(selected disabled hidden) Poll Options
+              option.modal__vote--dropdown-li Test option 1
+              option.modal__vote--dropdown-li Test option 2
+            br 
+            input.modal__submit.modal__submit--vote(type='submit' value='Submit')
+            br
           .modal__close.modal__close--vote Close
     if loggedIn === 'true'
       button.created-poll__option.created-poll__option--new-option(name='New Option' type='button') New Option
@@ -22,7 +22,7 @@ section.created-poll
         .modal__title.modal__title--new-option New Option
         .modal__body.modal__body--new-option
           form.modal__form.modal__form--new-option(method='post')
-            input.modal__new-option--option(type='text' placeholder='Type new option here (this constitutes voting)')
+            input.modal__new-option--option(name='option' type='text' placeholder='Type new option here (this constitutes voting)')
             br
             input.modal__submit.modal__submit--new-option(type='submit' value='Submit')
             br

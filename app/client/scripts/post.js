@@ -84,6 +84,19 @@ function checkForm (path) {
 }
 
 window.onload = function () {
+  // socket io logic:
+  if (location.pathname.match(/\/$/)) // if home path
+    socket.emit('change room', { room: location.pathname }); // '/'
+
+  if (location.pathname.match(/\/poll\/[0-9a-f-]+$/))
+    socket.emit('change room', { room: location.pathname.slice(6) }); // the nonce itself
+
+  if (location.pathname.match(/\/(?:signup|login|reset|createpoll|mypolls)\/?/i))
+    socket.emit('leave room', { path: location.pathname.toLowerCase().slice(1) });
+
+/****************/    
+
+
     // should separate out the functions based on path?
     // will likely need to refactor this as this seems semantically equivalent to having function declarations within conditionals.
     // delete function
@@ -107,11 +120,12 @@ window.onload = function () {
         }); // event delegation
     }
     
+
     if (location.pathname.match(/\/(?:signup|login|reset|createpoll)\/?/i)) {
-        // clear out form
-        document.querySelector('form').reset();
-        // gray out submit button until everything is filled in.
-        checkForm(location.pathname.toLowerCase().slice(1));
+      // clear out form
+      document.querySelector('form').reset();
+      // gray out submit button until everything is filled in.
+      checkForm(location.pathname.toLowerCase().slice(1));
     }
 
     if (location.pathname.match(/\/poll\/[0-9a-f-]+$/)) {
@@ -137,14 +151,39 @@ window.onload = function () {
         //  console.log(e.target.classList[e.target.classList.length - 1]);
       }));
 
+      // better to set up socket io rooms and have the updates broadcast only to those in the same room or to have it such that broadcasts regardless of room but only those in the room will it have any effect? Rooming seems more organized.
+      
+
+      /*
+      socket.join(location.pathname.slice(1), err => {
+        if (err) throw err;
+      });
+      */
+
+
       // on vote submit, pass along the selected option and with socket io update the db
       // emit the event so that it updates...
-      // can likely form action with a created function! to be done.
+      // eventlistener for form submissions:
+      Array.prototype.forEach.call(document.querySelectorAll('.modal__form'), el => el.addEventListener('submit', e => {
+        e.preventDefault(); // still need the post event to get to the back end..
+        console.log('something has been submitted.');
+        console.log(el.classList);
+        console.log(el.firstChild.value);
+        
+        
+
+        if (el.classList.contains('modal__form--vote')) {
+          socket.emit('add vote', { vote: el.firstChild.value, path: location.pathname.slice(6) });
+          // gray out the vote button for this user. (add this poll as already voted by this user, or add it to the users who have voted on this poll and prevent that way
+          // either way needs to modify the data store to remember this.
+        // the idea is that security measures cannot be front end because those elements can be modified using chrome tools, for example..
+        // but if that's true, what to prevent users from modifying the socket emit value?
+           
+        }
+        
+      }));
 
       
-      // on new-option submit
-
-
 
       var ctx = document.querySelector('.created-poll__poll--canvas');
       var myChart = new Chart(ctx, {
@@ -183,7 +222,18 @@ window.onload = function () {
       
       });
       
-     
+      socket.on('update poll', function (data) {
+        console.log(data.pollOptions);
+        optionText = data.pollOptions.map(x => x.optionText);
+        voteCount = data.pollOptions.map(x => x.voteCount);
+        console.log(optionText);
+        console.log(voteCount);
+        console.log(myChart.data);
+        myChart.data.datasets[0].data = voteCount;
+        myChart.update();
+        console.log('updating poll..');
+      });
+
       
       //  console.log('on that nonce page');
 
@@ -388,8 +438,23 @@ function copyPollLink () {
 
 }
 
-
-function onSubmit (submissionType) {
-
+/*
+// submit function for modal submit buttons, with parameter specifying which button was pressed
+function onSubmit (form) {
+  console.log('this is the option submitted: ' + form.option);
+  socket.emit('submit', function (data) { // or socket.emit...
+    
+    
+  });
+  // on submit, I need to modify the mongoose db so that it is reflected there using socket io instead of ajax
+//
 }
+
+*/
+
+// form submission -> prevent default (not changing page)
+// socket io the information
+// update from there
+// problem is updating the db from the main app section..
+
 

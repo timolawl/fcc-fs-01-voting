@@ -57,6 +57,7 @@ mongoose.connection.on('error', () => {
 
 
 require('./app/server/controllers/middlewares/passport')(passport); // pass passport for configuration.
+require('./app/server/controllers/middlewares/socketio')(io); // pass socketio for config
 
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, '/app/server/views'));
@@ -117,9 +118,4 @@ server.listen(app.get('port'), () => {
   console.log('Socket.io is listening on port', app.get('port'));
 });
 
-io.on('connection', function(socket) {
-  console.log('test socket');
-  var userID = socket.request.session.passport.user;
-  console.log(`Your user ID is ${userID}`);
-});
 

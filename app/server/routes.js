@@ -12,11 +12,13 @@ module.exports = (app, passport) => {
     app.route('/')
        .get((req, res) => {
            if (req.isAuthenticated())
+            // join main socket io room (this room is needed as at this level, polls can be added and deleted at will) and any previous room
              res.render('index', { loggedIn: 'true', path: 'index' }); //loggedIn still needed to not display the 'sign up' button
            else res.render('index', { path: 'index' });
         });
 
     app.route('/signup') // this allows for the question mark path.
+        // any other path should disconnect the user from any previous room, as they are not needed.
         .get(isNotLoggedIn, (req, res) => {
             res.render('userform', { path: 'signup', message: req.flash('signupMessage') });
         })
@@ -72,6 +74,7 @@ module.exports = (app, passport) => {
 
     app.route('/mypolls') // redirect here instead after login?
         .get(isLoggedIn, (req, res) => {
+            // no need to join a socket room here because at this page, nothing will change at this level
             res.render('mypolls', { loggedIn: 'true', path: 'mypolls' }); // use index? again, using loggedIn for setting the right nav bar, but there could be a cleaner way of doing this.
         });
 
@@ -83,7 +86,9 @@ module.exports = (app, passport) => {
                              }); // is the path right?
         });
         */
-        .get(controller.renderpoll);
+        .get(controller.renderpoll)
+
+        .post(controller.updatepoll);
 
     app.use((req, res) => { res.status(400).send('Bad request.'); });
 };

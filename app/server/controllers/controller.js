@@ -55,6 +55,9 @@ function controller () {
 
   this.renderpoll = (req, res) => {
     console.log('hello?');
+    // leave any previous rooms then join the current room
+
+
     // pull up the poll data using the nonce
     Poll.findOne({ 'permalink': req.path.slice(6) }).exec((err, poll) => {
       if (err) throw err;
@@ -131,6 +134,15 @@ function controller () {
       }
     });
 
+  };
+
+  this.updatepoll = (req, res) => {
+    // socket io no room change as it is an update
+
+    // on post on a poll page, do this:
+    // two pieces of essential information is the submit type and the option.
+    console.log('test');
+    console.log('New option submitted: ' + req.body.option);
   };
 
 
