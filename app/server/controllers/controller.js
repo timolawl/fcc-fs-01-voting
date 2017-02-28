@@ -67,7 +67,7 @@ function controller () {
         res.redirect('/404');
       }
       else {
-        let voted = false;
+        let voted = 'false';
         // tease out data first..
         const creator = poll._creator;
         const pollTitle = poll.title;
@@ -80,7 +80,7 @@ function controller () {
         console.log(voters);
         console.log(voters.indexOf(req.user.id));
         if (voters.indexOf(req.user.id) > -1) {
-          voted = true;
+          voted = 'true';
         }
 
 

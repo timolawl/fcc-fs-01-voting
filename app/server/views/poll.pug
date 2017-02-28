@@ -3,7 +3,7 @@ section.created-poll
   .created-poll__options
     .created-poll__title
     if loggedIn === 'true'
-      if voted === false
+      if voted === 'false'
         button.created-poll__option.created-poll__option--vote(name='Vote' type='button') Vote
         .modal.modal--vote.visibility--hide
           .modal__title.modal__title--vote Vote
@@ -17,7 +17,7 @@ section.created-poll
               input.modal__submit.modal__submit--vote(type='submit' value='Submit')
               br
             .modal__close.modal__close--vote Close
-      else if voted === true
+      else if voted === 'true'
         button.created-poll__option.created-poll__option--vote(name='Vote' type='button' disabled) Voted
         .modal.modal--vote.visibility--hide
           .modal__title.modal__title--vote Vote
@@ -32,7 +32,7 @@ section.created-poll
               br
             .modal__close.modal__close--vote Close
     if loggedIn === 'true'
-      if voted === false
+      if voted === 'false'
         button.created-poll__option.created-poll__option--new-option(name='New Option' type='button') New Option
         .modal.modal--new-option.visibility--hide
           .modal__title.modal__title--new-option New Option
@@ -43,7 +43,7 @@ section.created-poll
               input.modal__submit.modal__submit--new-option(type='submit' value='Submit')
               br
             .modal__close.modal__close--new-option Close
-      else if voted === true
+      else if voted === 'true'
         button.created-poll__option.created-poll__option--new-option(name='New Option' type='button' disabled) New Option
         .modal.modal--new-option.visibility--hide
           .modal__title.modal__title--new-option New Option
@@ -68,7 +68,7 @@ section.created-poll
       .modal.modal--delete-poll.visibility--hide
         .modal__title.modal__title--delete-poll Delete Poll?
         .modal__body.modal__body--delete-poll
-          form.modal__form.modal__form--delete-poll(method='post' action='#' enctype='application/x-www-form-urlencoded')
+          form.modal__form.modal__form--delete-poll(method='post' action='' enctype='application/x-www-form-urlencoded')
             input(type='hidden' name='_method' value='DELETE')
             button.modal__delete--yes(type='submit') YES
             button.modal__delete--no(type='button') NO

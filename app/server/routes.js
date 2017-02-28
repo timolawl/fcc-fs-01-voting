@@ -97,7 +97,9 @@ module.exports = (app, passport) => {
       });
         */
     app.use((req, res) => {
-      res.render('404');
+      if (req.isAuthenticated())
+        res.render('404', { loggedIn: 'true', path: '404' });
+      else res.render('404', { loggedIn: 'false', path: '404' });
     });
     //app.use((req, res) => { res.status(400).send('Bad request.'); });
 
