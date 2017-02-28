@@ -15,7 +15,8 @@ module.exports = (app, passport) => {
             // join main socket io room (this room is needed as at this level, polls can be added and deleted at will) and any previous room
              res.render('index', { loggedIn: 'true', path: 'index' }); //loggedIn still needed to not display the 'sign up' button
            else res.render('index', { path: 'index' });
-        });
+        })
+
 
     app.route('/signup') // this allows for the question mark path.
         // any other path should disconnect the user from any previous room, as they are not needed.
@@ -87,9 +88,10 @@ module.exports = (app, passport) => {
         });
         */
         .get(controller.renderpoll)
+        
+        .delete(controller.deletepoll);
 
-        .post(controller.updatepoll);
-
+        
     app.use((req, res) => { res.status(400).send('Bad request.'); });
 };
 

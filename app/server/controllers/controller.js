@@ -68,6 +68,14 @@ function controller () {
         const pollTitle = poll.title;
         const voteCount = poll.options.map(x => x.voteCount);
         const optionText = poll.options.map(x => x.optionText);
+        const voters = poll.options.map(x => x.voters);
+        let voted = false;
+
+        // check if already voted:
+        console.log('this is the req.user.id: ' + req.user.id);
+        if (voters.indexOf(req.user.id) > 0) {
+          voted = true;
+        }
 
 
 
@@ -101,11 +109,11 @@ function controller () {
 
         if (req.isAuthenticated()) {
           if (req.user.id && req.user.id === creator) {
-            res.render('poll', { owner: 'true', loggedIn: 'true', permalink: permalink, path: 'poll', optionText: optionText, voteCount: voteCount, pollTitle: pollTitle });
+            res.render('poll', { owner: 'true', loggedIn: 'true', permalink: permalink, path: 'poll', optionText: optionText, voteCount: voteCount, pollTitle: pollTitle, voted: voted });
           }
-          else res.render('poll', { owner: 'false', loggedIn: 'true', permalink: permalink, path: 'poll', optionText: optionText, voteCount: voteCount, pollTite: pollTitle });
+          else res.render('poll', { owner: 'false', loggedIn: 'true', permalink: permalink, path: 'poll', optionText: optionText, voteCount: voteCount, pollTite: pollTitle, voted: voted });
         }
-        else res.render('poll', { owner: 'false', loggedIn: 'false', permalink: permalink, path: 'poll', optionText: optionText, voteCount: voteCount, pollTitle: pollTitle });
+        else res.render('poll', { owner: 'false', loggedIn: 'false', permalink: permalink, path: 'poll', optionText: optionText, voteCount: voteCount, pollTitle: pollTitle, voted: voted });
         
         /*
 
@@ -135,7 +143,7 @@ function controller () {
     });
 
   };
-
+/*
   this.updatepoll = (req, res) => {
     // socket io no room change as it is an update
 
@@ -143,6 +151,20 @@ function controller () {
     // two pieces of essential information is the submit type and the option.
     console.log('test');
     console.log('New option submitted: ' + req.body.option);
+  };
+*/
+  this.deletepoll = (req, res) => {
+    console.log(req.path);
+    console.log('deleting poll!');
+  
+    Poll.findOneAndRemove({ 'permalink': req.path.slice(6) }).exec(err => {
+      if (err) throw err;
+      else console.log('poll deleted');
+    });
+
+    
+    res.redirect('/')
+
   };
 
 

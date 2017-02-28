@@ -164,27 +164,41 @@ window.onload = function () {
       // on vote submit, pass along the selected option and with socket io update the db
       // emit the event so that it updates...
       // eventlistener for form submissions:
-      Array.prototype.forEach.call(document.querySelectorAll('.modal__form'), el => el.addEventListener('submit', e => {
-        e.preventDefault(); // still need the post event to get to the back end..
-        console.log('something has been submitted.');
-        console.log(el.classList);
-        console.log(el.firstChild.value);
+      //
+
+      document.querySelector('.modal__form--vote').addEventListener('submit', e => {
+        e.preventDefault();
+        socket.emit('add vote', { vote: el.firstChild.value, path: location.pathname.slice(6) });
+      });
+
+      document.querySelector('.modal__form--new-option').addEventListener('submit', e => {
+        e.preventDefault();
+        socket.emit('add option', { option: el.firstChild.value, path: location.pathname.slice(6) });
+      });
+        
+      //  console.log('something has been submitted.');
+       // console.log(el.classList);
+       // console.log(el.firstChild.value);
         
         
 
-        if (el.classList.contains('modal__form--vote')) {
-          socket.emit('add vote', { vote: el.firstChild.value, path: location.pathname.slice(6) });
+
           // gray out the vote button for this user. (add this poll as already voted by this user, or add it to the users who have voted on this poll and prevent that way
+          //
+          // can't do it this way only because someone can leave the page and come back and that's it.
+          // need to do it at the db level.
+         // document.querySelector('.created-poll__option--vote').disabled = true;
           // either way needs to modify the data store to remember this.
         // the idea is that security measures cannot be front end because those elements can be modified using chrome tools, for example..
         // but if that's true, what to prevent users from modifying the socket emit value?
-           
-        }
-        
-      }));
+        // delete entire poll:
+      /*
+      document.querySelector('.modal__delete--yes').addEventListener('click', e => {
+        socket.emit('delete', { path: location.pathname.slice(6) });
+      });
+      */
 
-      
-
+      // draw the chart
       var ctx = document.querySelector('.created-poll__poll--canvas');
       var myChart = new Chart(ctx, {
         type: 'pie',
@@ -230,10 +244,12 @@ window.onload = function () {
         console.log(voteCount);
         console.log(myChart.data);
         myChart.data.datasets[0].data = voteCount;
+        myChart.data.labels = optionText;
         myChart.update();
         console.log('updating poll..');
       });
 
+      
       
       //  console.log('on that nonce page');
 
@@ -253,6 +269,17 @@ window.onload = function () {
       // let pollTitle = 'What is your favorite book series?';
       document.querySelector('.created-poll__title').textContent = pollTitle;
       
+      // populate vote options once; will need to revisit later for the new option part
+      document.querySelector('.modal__vote--dropdown-li:nth-child(2)').textContent = optionText[0];
+      document.querySelector('.modal__vote--dropdown-li:nth-child(3)').textContent = optionText[1];
+          // add any additional options remaining:
+          
+      for (let i = 2; i < optionText.length; i++) {
+        let nextOption = document.createElement('option');
+        nextOption.classList.add('modal__vote--dropdown-li');
+        nextOption.textContent = optionText[i];
+        document.querySelector('.modal__vote--dropdown-ul').appendChild(nextOption);
+      }
 
 /*
       const currentLabels = [                
@@ -359,18 +386,27 @@ window.onload = function () {
 function displayModal (option) {
   // dim the background
   document.querySelector('.modal__overlay').classList.remove('visibility--hide');
+
+  let closeOptions = Array.from(document.querySelectorAll('.modal__close'));
+  closeOptions.push.call(closeOptions, document.querySelector('.modal__overlay'));
+  closeOptions.push.call(closeOptions, document.querySelector('.modal__delete--no'));
+  closeOptions.push.apply(closeOptions, Array.from(document.querySelectorAll('.modal__submit')));
+
   // close button closes modal and relights background
-  Array.prototype.forEach.call(document.querySelectorAll('.modal__close'), e => e.addEventListener('click', event => {
+  closeOptions.forEach(e => e.addEventListener('click', event => {
     document.querySelector('.modal__overlay').classList.add('visibility--hide');
     Array.prototype.forEach.call(document.querySelectorAll('.modal'), e => e.classList.add('visibility--hide'));
     // rehide the flash message on modal close
     if (document.querySelector('.modal--share'))
       document.querySelector('.modal__flash-message').classList.add('display--hide');
     // clear new-option input field on modal close
+    /*
     if (document.querySelector('.modal--new-option'))
       document.querySelector('.modal__form--new-option').reset();
+    */
 
   }));
+  /*
   // same with clicking on the overlay..
   document.querySelector('.modal__overlay').addEventListener('click', () => {
     document.querySelector('.modal__overlay').classList.add('visibility--hide');
@@ -381,7 +417,10 @@ function displayModal (option) {
     if (document.querySelector('.modal--new-option'))
       document.querySelector('.modal__form--new-option').reset();
   });
+*/
 
+  
+  
 
   switch (option) {
     case 'vote':
@@ -389,22 +428,11 @@ function displayModal (option) {
       // dynamically set up the vote modal (populate the options with the actual options)
       // we know that there are at the very least two options, so populate those first
       // would this make it too slow as it's always dynamic? really minor tbh
-
-      document.querySelector('.modal__vote--dropdown-li:nth-child(2)').textContent = optionText[0];
-      document.querySelector('.modal__vote--dropdown-li:nth-child(3)').textContent = optionText[1];
-      // add any additional options remaining:
-      let numberOfOptions = 2;
-      while (optionText[numberOfOptions]) {
-        let nextOption = document.createElement('option');
-        nextOption.classList.add('modal__vote--dropdown-li');
-        nextOption.textContent = optionText[numberOfOptions];
-        document.querySelector('.modal__vote--dropdown-ul').appendChild(nextOption);
-        numberOfOptions++;
-      }
       document.querySelector('.modal--vote').classList.remove('visibility--hide');
       break;
     case 'new-option':
-      console.log('creating new option..');
+     //  console.log('creating new option..');
+      document.querySelector('.modal__form--new-option').reset(); // put reset at open
       document.querySelector('.modal--new-option').classList.remove('visibility--hide');
       break;
     case 'share':

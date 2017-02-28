@@ -20,6 +20,10 @@ const io = require('socket.io')(server);
 // other base tech stack requires
 const favicon = require('serve-favicon');
 
+// for using HTTP DELETE in forms
+const bodyParser = require('body-parser');
+const methodOverride = require('method-override');
+
 // database requires
 const mongoose = require('mongoose'); // already includes mongoDB
 
@@ -33,7 +37,7 @@ const limiter = require('limiter'); // where will I be using limiter?
 const compression = require('compression'); // where am I using this?
 
 // authentication and its dependency requires
-const bodyParser = require('body-parser');
+// const bodyParser = require('body-parser');
 const flash = require('connect-flash');
 const session = require('express-session'); // session data is not saved in the cookie itself, just the session ID. Session data is stored server-side.
 const MongoStore = require('connect-mongo')(session); // move store from mem to mongo
@@ -67,6 +71,17 @@ app.locals.basedir = app.get('views'); // allows for pug includes
 //app.listen(5000, () => { console.log("Running on 5000."); });
 app.set('port', port);
 
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(methodOverride((req, res) => {
+  if (req.body && typeof req.body === 'object' && '_method' in req.body) {
+    // look in urlencoded POST bodies and delete it
+    let method = req.body._method
+    delete req.body._method
+    return method
+  }
+}));
+
+
 app.use(compression());
 app.use(helmet()); // can set up CSP against XSS attacks. 7/10 of its headers implemented by default.
 app.use('/static', express.static(path.join(__dirname,'/static')));
@@ -85,6 +100,7 @@ const sessionMiddleware = session({
     saveUninitialized: false, // no ability for non-authorized; no reason to save.
     cookie: { secure: 'auto' } // didn't specify true as working between dev/prod. auto automatically determines, however if set on https then going to http will not show cookie.
 });
+
 
 app.use(sessionMiddleware);
 

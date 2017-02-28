@@ -23,7 +23,7 @@ module.exports = io => {
     socket.on('leave room', function (data) {
       if (socket.room !== undefined)
         socket.leave(socket.room);
-      console.log('now in: ' + data.path);
+   //   console.log('now in: ' + data.path);
     });
 
     socket.on('change room', function (data) {
@@ -31,7 +31,7 @@ module.exports = io => {
         socket.leave(socket.room);
       socket.room = data.room;
       socket.join(socket.room);
-      console.log('now in: ' + socket.room);
+  //    console.log('now in: ' + socket.room);
     });
     
     socket.on('add vote', function (data) {
@@ -43,6 +43,7 @@ module.exports = io => {
           for (let i = 0; i < poll.options.length; i++) {
             if (poll.options[i].optionText === data.vote) {
               poll.options[i].voteCount++;
+              poll.voters.push(userID);
               poll.save(err => {
                 if (err) throw err;
               });
@@ -50,13 +51,46 @@ module.exports = io => {
             }
           }
 
-          console.log('joined room: ' + data.path);
+   //       console.log('joined room: ' + data.path);
           // http://stackoverflow.com/questions/10058226/send-response-to-all-clients-except-sender-socket-io
           io.in(data.path).emit('update poll', { pollOptions: poll.options });
-          console.log('data should have been emitted...');
+//          console.log('data should have been emitted...');
         }
       });
     });
 
+  socket.on('add option', function (data) {
+    Poll.findOne({ 'permalink': data.path }).exec((err, poll) => {
+      if (err) throw err;
+      if (!poll) throw err;
+       else {
+        let duplicate = false;
+
+        // check if unique first, if not add to existing.
+        for (let i = 0; i < poll.options.length; i++) {
+          if (poll.options[i].optionText === data.option) { // currently case matters
+            poll.options[i].voteCount++;
+            poll.voters.push(userID);
+            poll.save(err => {
+              if (err) throw err;
+            });
+            duplicate = true;
+            break;
+          }
+        }
+        if (!duplicate) {
+          poll.options.push({ optionText: data.option, voteCount: 1 });
+          poll.votesr.push(userID);
+          poll.save(err => {
+            if (err) throw err;
+          });
+        }
+        io.in(data.path).emit('update poll', { pollOptions: poll.options });
+      }
+    });
+    
   });
+
+  });
+
 };

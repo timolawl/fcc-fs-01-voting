@@ -19,7 +19,7 @@
   "homepage": "https://github.com/timolawl/fcc-voting#readme",
   "dependencies": {
     "bcrypt": "^1.0.2",
-    "body-parser": "^1.15.0",
+    "body-parser": "^1.16.1",
     "compression": "^1.6.2",
     "connect-flash": "^0.1.1",
     "connect-mongo": "^1.2.0",
@@ -28,7 +28,7 @@
     "express-session": "^1.13.0",
     "helmet": "^3.4.0",
     "limiter": "^1.1.0",
-    "method-override": "^2.3.5",
+    "method-override": "^2.3.7",
     "mongoose": "^4.4.12",
     "morgan": "^1.7.0",
     "neverbounce": "^0.2.2",

@@ -54,12 +54,23 @@ a {
 
 button {
   outline: none; // removes default button highlighting
+  border: none;
+  &:disabled {
+    color: #999;
+  }
 }
 
 input {
   padding: 0 0.5rem;
   &[type='submit'] {
     border: none;
+  }
+  &[type='button'] {
+    outline: none;
+    border: none;
+  }
+  &:disabled {
+    color: #999;
   }
 }
 
