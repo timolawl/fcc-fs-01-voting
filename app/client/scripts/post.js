@@ -165,15 +165,16 @@ window.onload = function () {
       // emit the event so that it updates...
       // eventlistener for form submissions:
       //
-
-      document.querySelector('.modal__form--vote').addEventListener('submit', e => {
+      let el_vote = document.querySelector('.modal__form--vote'); 
+      el_vote.addEventListener('submit', e => {
         e.preventDefault();
-        socket.emit('add vote', { vote: el.firstChild.value, path: location.pathname.slice(6) });
+        socket.emit('add vote', { vote: el_vote.firstChild.value, path: location.pathname.slice(6) });
       });
 
-      document.querySelector('.modal__form--new-option').addEventListener('submit', e => {
+      let el_option = document.querySelector('.modal__form--new-option');
+      el_option.addEventListener('submit', e => {
         e.preventDefault();
-        socket.emit('add option', { option: el.firstChild.value, path: location.pathname.slice(6) });
+        socket.emit('add option', { option: el_option.firstChild.value, path: location.pathname.slice(6) });
       });
         
       //  console.log('something has been submitted.');
@@ -237,16 +238,21 @@ window.onload = function () {
       });
       
       socket.on('update poll', function (data) {
-        console.log(data.pollOptions);
+        // on update, check if individual has voted yet or not
+        socket.emit('vote check', { path: location.pathname.slice(6) });
+
         optionText = data.pollOptions.map(x => x.optionText);
         voteCount = data.pollOptions.map(x => x.voteCount);
-        console.log(optionText);
-        console.log(voteCount);
-        console.log(myChart.data);
         myChart.data.datasets[0].data = voteCount;
         myChart.data.labels = optionText;
         myChart.update();
         console.log('updating poll..');
+      });
+
+      socket.on('voted', function (data) {
+        document.querySelector('.created-poll__option--vote').textContent = 'Voted';
+        document.querySelector('.created-poll__option--vote').disabled = true;
+        document.querySelector('.created-poll__option--new-option').disabled = true;
       });
 
       

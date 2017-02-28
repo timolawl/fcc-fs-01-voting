@@ -7,7 +7,7 @@ const Poll = require('../models/poll');
 
 
 function controller () {
-  this.createpoll = (req, res) => {
+  this.createpoll = (req, res, next) => {
     const newPoll = new Poll();
     newPoll._creator = req.user.id;
     newPoll.title = req.body.name;
@@ -38,7 +38,6 @@ function controller () {
     // still, a local variable passed saying that this poll was just created would help..
     res.redirect('/poll/' + newPoll.permalink); // , { permalink: newPoll.permalink });
     // the above option should go through the normal behavior of going through controller.renderpoll.. check to make sure later.
-
 /*
         
     Poll.find({}, (err, polls) => {
@@ -53,55 +52,43 @@ function controller () {
 
   };
 
-  this.renderpoll = (req, res) => {
-    console.log('hello?');
+  this.renderpoll = (req, res, next) => {
+ //   console.log('hello?');
     // leave any previous rooms then join the current room
 
 
     // pull up the poll data using the nonce
     Poll.findOne({ 'permalink': req.path.slice(6) }).exec((err, poll) => {
       if (err) throw err;
-      if (!poll) throw err;
+      if (!poll) {
+        // no poll exists at this permalink; redirect individual to 404 page.
+        res.redirect('/404');
+      }
       else {
+        let voted = false;
         // tease out data first..
         const creator = poll._creator;
         const pollTitle = poll.title;
         const voteCount = poll.options.map(x => x.voteCount);
         const optionText = poll.options.map(x => x.optionText);
-        const voters = poll.options.map(x => x.voters);
-        let voted = false;
+        const voters = poll.voters;
+
 
         // check if already voted:
-        console.log('this is the req.user.id: ' + req.user.id);
-        if (voters.indexOf(req.user.id) > 0) {
+        console.log(voters);
+        console.log(voters.indexOf(req.user.id));
+        if (voters.indexOf(req.user.id) > -1) {
           voted = true;
         }
 
 
-
-        // ideas for passing chart js data to client:
-        // 1. if pug allows for crafting a javascript segment, then this would be the best option, but it appears that this cannot be done..(it's not recommended to make a JS segment using an HTML templater)
-        // 2. write code here and somehow append to the body of the template? Is this possible?
-        // 3. Ajax call query of the data from the server? It's not like I can't pass the data to the served page; it's just that I can't seem to make use of it without explicitly having it show up on the page somewhere.
-
-                
-        // need to actually move this to client-side because chart js is for client rendering
-        // render the page then populate with chart after? need the HTML hook..
-        // data can be passed through local variables but charting it seems to require that the data be present on the page before it can be charted
-        // that or, I need to generate a dynamic pug file that becomes modified based on this, then is rendered...
-        // this would solve the direction from server to user, but what about user to server?
-        // clicks would generate ajax calls (problem with this approach is that it's only 1 person)
-        // socket io can make it real time. if using sockets, no need to do the dynamic pug page, I don't think.
-        // two checks:
-        // owner? Yes -> have delete poll option
-        // authenticated user? Yes -> have add option option
-
         console.log('Retrieving poll...');
-        console.log(creator);
-        console.log(pollTitle);
-       // console.log(req.user.id);
-        console.log(voteCount);
-        console.log(optionText);
+        console.log(voted);
+        console.log('creator: ' + creator);
+     //   console.log(pollTitle);
+        console.log('req.user.id: ' + req.user.id);
+     //   console.log(voteCount);
+     //   console.log(optionText);
 
         const permalink = req.protocol + '://' + req.get('host') + req.originalUrl; // for allowing the copy paste function
 
@@ -113,32 +100,7 @@ function controller () {
           }
           else res.render('poll', { owner: 'false', loggedIn: 'true', permalink: permalink, path: 'poll', optionText: optionText, voteCount: voteCount, pollTite: pollTitle, voted: voted });
         }
-        else res.render('poll', { owner: 'false', loggedIn: 'false', permalink: permalink, path: 'poll', optionText: optionText, voteCount: voteCount, pollTitle: pollTitle, voted: voted });
-        
-        /*
-
-        if (req.isAuthenticated()) {  
-          res.render('poll', { loggedIn: 'true', path: 'poll', voteCount: voteCount, optionText: optionText, title: poll.title });
-        }
-        else {
-          res.render('poll', { loggedIn: 'false', path: 'poll', voteCount: voteCount, optionText: optionText, title: poll.title });
-
-        }
-
-        */
-                // get HTML hook
-        /*
-        const ctx = document.getElementById('freshPoll');
-        const myChart = new Chart(ctx, {
-          type: 'pie',
-          data: data,
-          options: {
-            title: {
-              text: poll.title
-            }
-          }
-        });
-        */
+        else res.render('poll', { owner: 'false', loggedIn: 'false', permalink: permalink, path: 'poll', optionText: optionText, voteCount: voteCount, pollTitle: pollTitle, voted: voted });  
       }
     });
 
@@ -153,7 +115,7 @@ function controller () {
     console.log('New option submitted: ' + req.body.option);
   };
 */
-  this.deletepoll = (req, res) => {
+  this.deletepoll = (req, res, next) => {
     console.log(req.path);
     console.log('deleting poll!');
   

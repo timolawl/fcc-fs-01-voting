@@ -8,9 +8,12 @@ module.exports = io => {
 
   io.on('connection', function(socket) {
     console.log('test socket');
-    var userID = socket.request.session.passport.user;
-    console.log(`Your user ID is ${userID}`);
-  /*
+    // this only works if the user is already registered and logged in:
+    if (socket.request.session.passport) {
+      var userID = socket.request.session.passport.user;
+      console.log(`Your user ID is ${userID}`);
+    }
+      /*
     socket.on('submit', function (data) {
       console.log(data);
     });
@@ -59,37 +62,53 @@ module.exports = io => {
       });
     });
 
-  socket.on('add option', function (data) {
-    Poll.findOne({ 'permalink': data.path }).exec((err, poll) => {
-      if (err) throw err;
-      if (!poll) throw err;
-       else {
-        let duplicate = false;
+    socket.on('add option', function (data) {
+      Poll.findOne({ 'permalink': data.path }).exec((err, poll) => {
+        if (err) throw err;
+        if (!poll) throw err;
+        else {
+          let duplicate = false;
 
-        // check if unique first, if not add to existing.
-        for (let i = 0; i < poll.options.length; i++) {
-          if (poll.options[i].optionText === data.option) { // currently case matters
-            poll.options[i].voteCount++;
+          // check if unique first, if not add to existing.
+          for (let i = 0; i < poll.options.length; i++) {
+            if (poll.options[i].optionText === data.option) { // currently case matters
+              poll.options[i].voteCount++;
+              poll.voters.push(userID);
+              poll.save(err => {
+                if (err) throw err;
+              });
+              duplicate = true;
+              break;
+            }
+          }
+          if (!duplicate) {
+            poll.options.push({ optionText: data.option, voteCount: 1 });
             poll.voters.push(userID);
             poll.save(err => {
               if (err) throw err;
             });
-            duplicate = true;
-            break;
           }
+          io.in(data.path).emit('update poll', { pollOptions: poll.options });
         }
-        if (!duplicate) {
-          poll.options.push({ optionText: data.option, voteCount: 1 });
-          poll.votesr.push(userID);
-          poll.save(err => {
-            if (err) throw err;
-          });
-        }
-        io.in(data.path).emit('update poll', { pollOptions: poll.options });
-      }
+      });
+      
     });
     
-  });
+    socket.on('vote check', function (data) {
+      // check the vote status of current user
+       Poll.findOne({ 'permalink': data.path }).exec((err, poll) => {
+        if (err) throw err;
+        if (!poll) throw err;
+        else {
+          let voters = poll.voters;
+          if (voters.indexOf(userID) >= -1) {
+            // voted
+            socket.emit('voted', {});
+          }
+        }
+      });
+
+    });
 
   });
 

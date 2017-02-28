@@ -90,9 +90,18 @@ module.exports = (app, passport) => {
         .get(controller.renderpoll)
         
         .delete(controller.deletepoll);
+/*
+    app.route('/404')
+      .get((req, res) => {
+        res.render('404');
+      });
+        */
+    app.use((req, res) => {
+      res.render('404');
+    });
+    //app.use((req, res) => { res.status(400).send('Bad request.'); });
 
-        
-    app.use((req, res) => { res.status(400).send('Bad request.'); });
+
 };
 
 function isLoggedIn (req, res, next) {
