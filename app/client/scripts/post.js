@@ -4,9 +4,13 @@
 const host = 'timolawl-voting.herokuapp.com';
 var socket;
 if (host == location.host) {
+  console.log('same host');
   socket = io.connect('https://timolawl-voting.herokuapp.com:5000');
 }
-else socket = io.connect('//localhost:5000');
+else {
+  socket = io.connect('//localhost:5000');
+  console.log('local host');
+}
 
 function addOption (btnCounter) {
     // need a way of keeping track of the count.
