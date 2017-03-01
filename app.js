@@ -75,20 +75,16 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(methodOverride((req, res) => {
   if (req.body && typeof req.body === 'object' && '_method' in req.body) {
     // look in urlencoded POST bodies and delete it
-    let method = req.body._method;
-    delete req.body._method;
-    return method;
+    let method = req.body._method
+    delete req.body._method
+    return method
   }
 }));
 
 
 app.use(compression());
 app.use(helmet()); // can set up CSP against XSS attacks. 7/10 of its headers implemented by default.
-
-console.log('__dirname: ' + __dirname);
-console.log('process.cwd(): ' + process.cwd());
-
-app.use('/static', express.static(path.join(__dirname, '/static')));
+app.use('/static', express.static(path.join(__dirname,'/static')));
 app.use(favicon(path.join(__dirname, '/static/img/favicon.ico')));
 
 
