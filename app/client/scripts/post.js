@@ -1,7 +1,7 @@
 'use strict';
 
 // socket io -- the cdnjs script is in the HTML template above this script file
-var socket = io.connect('http://localhost:5000'); // hardcoded, it seems
+var socket = io.connect('//localhost:5000'); // hardcoded, it seems
 //socket.on('news', function (data) {
   
 //});
