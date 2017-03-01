@@ -28,7 +28,7 @@ function addOption (btnCounter) {
     input.setAttribute('type', 'text');
     input.setAttribute('name', 'options');
     input.setAttribute('placeholder', 'New Option');
-    input.setAttribute('pattern', '^[a-zA-Z0-9][a-zA-Z0-9_/ .?-]{0,200}$');
+    input.setAttribute('pattern', '^[a-zA-Z0-9\$@#&\*\+\-][a-zA-Z0-9\$@#&%\*\+\'\"_/, \.?!-]{0,200}$');
 
     const div = document.createElement('div');
     div.className = 'form__options--option';
@@ -85,18 +85,19 @@ function checkForm (path) {
 
 window.onload = function () {
   // socket io logic:
-  if (location.pathname.match(/\/$/)) // if home path
+  if (location.pathname.match(/^\/$/)) // if home path
     socket.emit('change room', { room: location.pathname }); // '/'
 
-  if (location.pathname.match(/\/poll\/[0-9a-f-]+$/))
+  if (location.pathname.match(/^\/poll\/[0-9a-f-]+$/))
     socket.emit('change room', { room: location.pathname.slice(6) }); // the nonce itself
 
-  if (location.pathname.match(/\/(?:signup|login|reset|createpoll|mypolls)\/?/i))
+  if (location.pathname.match(/^\/(?:signup|login|reset|createpoll|mypolls)\/?/i))
     socket.emit('leave room', { path: location.pathname.toLowerCase().slice(1) });
 
 /****************/    
 
-    if (location.pathname.match(/\/$/)) {
+    if (location.pathname.match(/^\/$/)) {
+      console.log('home');
       // populate the page with currently active charts by date.
       socket.emit('list all polls', {});
       
@@ -116,7 +117,7 @@ window.onload = function () {
       });
     }
 
-    if (location.pathname.match(/\/mypolls$/)) {
+    if (location.pathname.match(/^\/mypolls$/)) {
       socket.emit('list my polls', {});
       
       socket.on('populate my polls', function (data) {
@@ -136,7 +137,7 @@ window.onload = function () {
 
     }
 
-    if (location.pathname.match(/\/createpoll\/?/i)) { // why does this have only 1 slash?
+    if (location.pathname.match(/^\/createpoll\/?/i)) { // why does this have only 1 slash?
 
         let buttonCounter = 3; // initial setting since there's already 2 initially.
 
@@ -157,14 +158,14 @@ window.onload = function () {
     }
     
 
-    if (location.pathname.match(/\/(?:signup|login|reset|createpoll)\/?/i)) {
+    if (location.pathname.match(/^\/(?:signup|login|reset|createpoll)\/?/i)) {
       // clear out form
       document.querySelector('form').reset();
       // gray out submit button until everything is filled in.
       checkForm(location.pathname.toLowerCase().slice(1));
     }
 
-    if (location.pathname.match(/\/poll\/[0-9a-f-]+$/)) {
+    if (location.pathname.match(/^\/poll\/[0-9a-f-]+$/)) {
       // button click (general):
       Array.prototype.forEach.call(document.querySelectorAll('.created-poll__option'), el => el.addEventListener('click', e => {
         switch (e.target.classList[e.target.classList.length-1]) {
@@ -192,19 +193,21 @@ window.onload = function () {
       // on vote submit, pass along the selected option and with socket io update the db
       // emit the event so that it updates...
       // eventlistener for form submissions:
-      //
-      let el_vote = document.querySelector('.modal__form--vote'); 
-      el_vote.addEventListener('submit', e => {
-        e.preventDefault();
-        socket.emit('add vote', { vote: el_vote.firstChild.value, path: location.pathname.slice(6) });
-      });
-
-      let el_option = document.querySelector('.modal__form--new-option');
-      el_option.addEventListener('submit', e => {
-        e.preventDefault();
-        socket.emit('add option', { option: el_option.firstChild.value, path: location.pathname.slice(6) });
-      });
-        
+      if (document.querySelector('.modal__form--vote')) { // if these elements exist, then..
+        let el_vote = document.querySelector('.modal__form--vote'); 
+        el_vote.addEventListener('submit', e => {
+		  e.preventDefault();
+		  socket.emit('add vote', { vote: el_vote.firstChild.value, path: location.pathname.slice(6) });
+        });
+      }
+      if (document.querySelector('.modal__form--new-option')) {
+      	let el_option = document.querySelector('.modal__form--new-option');
+		el_option.addEventListener('submit', e => {
+		  e.preventDefault();
+		  socket.emit('add option', { option: el_option.firstChild.value, path: location.pathname.slice(6) });
+		});
+      }
+              
       // draw the chart
       var ctx = document.querySelector('.created-poll__poll--canvas');
       var myChart = new Chart(ctx, {
@@ -238,6 +241,9 @@ window.onload = function () {
           legend: {
             display: true,
             position: 'bottom'
+          },
+          tooltips: {
+            xPadding: 10
           }
         }
       
@@ -278,15 +284,17 @@ window.onload = function () {
       document.querySelector('.created-poll__title').textContent = pollTitle;
       
       // populate vote options once; will need to revisit later for the new option part
-      document.querySelector('.modal__vote--dropdown-li:nth-child(2)').textContent = optionText[0];
-      document.querySelector('.modal__vote--dropdown-li:nth-child(3)').textContent = optionText[1];
-          // add any additional options remaining:
-          
-      for (let i = 2; i < optionText.length; i++) {
-        let nextOption = document.createElement('option');
-        nextOption.classList.add('modal__vote--dropdown-li');
-        nextOption.textContent = optionText[i];
-        document.querySelector('.modal__vote--dropdown-ul').appendChild(nextOption);
+      if (document.querySelector('.created-poll__option--vote')) {     
+        document.querySelector('.modal__vote--dropdown-li:nth-child(2)').textContent = optionText[0];
+        document.querySelector('.modal__vote--dropdown-li:nth-child(3)').textContent = optionText[1];
+            // add any additional options remaining:
+            
+        for (let i = 2; i < optionText.length; i++) {
+          let nextOption = document.createElement('option');
+          nextOption.classList.add('modal__vote--dropdown-li');
+          nextOption.textContent = optionText[i];
+          document.querySelector('.modal__vote--dropdown-ul').appendChild(nextOption);
+        }
       }
     }
 };
@@ -297,7 +305,8 @@ function displayModal (option) {
 
   let closeOptions = Array.from(document.querySelectorAll('.modal__close'));
   closeOptions.push.call(closeOptions, document.querySelector('.modal__overlay'));
-  closeOptions.push.call(closeOptions, document.querySelector('.modal__delete--no'));
+  if (document.querySelector('.modal__delete--no')) // if it exists
+    closeOptions.push.call(closeOptions, document.querySelector('.modal__delete--no'));
   closeOptions.push.apply(closeOptions, Array.from(document.querySelectorAll('.modal__submit')));
 
   // close button closes modal and relights background

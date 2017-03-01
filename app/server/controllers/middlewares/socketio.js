@@ -102,6 +102,7 @@ module.exports = io => {
     });
 
     socket.on('list all polls', function (data) {
+      console.log('listing all polls...');
       Poll.find().sort({ lastActivity: -1 }).exec((err, polls) => {
         let pollNames = polls.map(x => x.title);
         let pollLinks = polls.map(x => x.permalink);

@@ -6,7 +6,7 @@ const Poll = require('../models/poll');
 
 
 function controller () {
-  this.createpoll = (req, res, next) => {
+  this.createpoll = (req, res) => {
     const newPoll = new Poll();
     newPoll._creator = req.user.id;
     // newPoll.dateCreated = Date.now(); // not needed; will default to Date.now() on every save
@@ -31,7 +31,7 @@ function controller () {
 
   };
 
-  this.renderpoll = (req, res, next) => {
+  this.renderpoll = (req, res) => {
     // leave any previous rooms then join the current room
 
 
@@ -53,17 +53,18 @@ function controller () {
 
 
         // check if already voted:
-        if (voters.indexOf(req.user.id) > -1) {
-          voted = 'true';
+        if (req.isAuthenticated()) {
+          if (voters.indexOf(req.user.id) > -1)
+            voted = 'true';
         }
 
         const permalink = req.protocol + '://' + req.get('host') + req.originalUrl; // for allowing the copy paste function
 
         if (req.isAuthenticated()) {
-          if (req.user.id && req.user.id === creator) {
+          if (req.user && req.user.id && req.user.id === creator) {
             res.render('poll', { owner: 'true', loggedIn: 'true', permalink: permalink, path: 'poll', optionText: optionText, voteCount: voteCount, pollTitle: pollTitle, voted: voted });
           }
-          else res.render('poll', { owner: 'false', loggedIn: 'true', permalink: permalink, path: 'poll', optionText: optionText, voteCount: voteCount, pollTite: pollTitle, voted: voted });
+          else res.render('poll', { owner: 'false', loggedIn: 'true', permalink: permalink, path: 'poll', optionText: optionText, voteCount: voteCount, pollTitle: pollTitle, voted: voted });
         }
         else res.render('poll', { owner: 'false', loggedIn: 'false', permalink: permalink, path: 'poll', optionText: optionText, voteCount: voteCount, pollTitle: pollTitle, voted: voted });  
       }
@@ -80,7 +81,7 @@ function controller () {
     console.log('New option submitted: ' + req.body.option);
   };
 */
-  this.deletepoll = (req, res, next) => {
+  this.deletepoll = (req, res) => {
   
     Poll.findOneAndRemove({ 'permalink': req.path.slice(6) }).exec(err => {
       if (err) throw err;

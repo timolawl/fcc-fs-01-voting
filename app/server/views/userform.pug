@@ -12,7 +12,7 @@ include /includes/header.pug
     .message= message
   form.form(method='post')
     if path == 'signup'
-      label.form__label(for='name') Name
+      label.form__label(for='name') Username
       input.form__input.form__input--name(type='text' name='username' pattern="^(?:\\w+[\\w.'-]*(?: [\\w.'-]+)*){1,50}$" required)
     label.form__label(for='email') Email
     input.form__input.form__input--email(type='email' name='email' pattern='^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9]+\.[a-zA-Z0-9-.]+$' maxlength='100' required)

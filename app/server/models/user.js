@@ -9,7 +9,7 @@ const Poll = require('./poll');
 const userSchema = new mongoose.Schema({
     local               : {
         _id             : Number,
-        username        : { type: String, required: true },
+        username        : { type: String, required: true, unique: true },
         email           : { type: String, required: true, unique: true },
         password        : { type: String, required: true, select: false },
       //  accountStatus   : String,
@@ -17,8 +17,8 @@ const userSchema = new mongoose.Schema({
       //  accountConfirmationExpires: Date,
       //  resetPasswordToken: String,
       //  resetPasswordExpires: Date,
-        polls: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Poll' }],
-        pollsVotedOn: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Poll' }]
+      //  polls: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Poll' }],
+      //  pollsVotedOn: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Poll' }]
     }
 });
 
