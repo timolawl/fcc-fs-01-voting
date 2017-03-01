@@ -123,6 +123,10 @@ app.listen(app.get('port'), () => {
 // but I still need to see if there's even a reason for having socket interact with the session.
 //
 
+io.configure(() => {
+  io.set('match origin protocol', true);
+});
+
 io.use(function(socket, next) {
   sessionMiddleware(socket.request, {}, next);
 });
