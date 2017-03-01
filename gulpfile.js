@@ -108,4 +108,4 @@ gulp.task('watch', ['browserSync'], () => {
 });
 
 gulp.task('default', ['build', 'watch']);
-gulp.task('build', ['sass', 'script']);
+gulp.task('build', ['sass', 'script', 'image']);
