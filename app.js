@@ -84,6 +84,10 @@ app.use(methodOverride((req, res) => {
 
 app.use(compression());
 app.use(helmet()); // can set up CSP against XSS attacks. 7/10 of its headers implemented by default.
+
+console.log('__dirname: ' + __dirname);
+console.log('process.cwd(): ' + process.cwd());
+
 app.use('/static', express.static(path.join(__dirname, '/static')));
 app.use(favicon(path.join(__dirname, '/static/img/favicon.ico')));
 
