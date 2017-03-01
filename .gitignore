@@ -1,5 +1,4 @@
 node_modules/
-static/
 .jshintrc
 .env
 .DS_Store
