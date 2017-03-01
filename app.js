@@ -64,7 +64,7 @@ require('./app/server/controllers/middlewares/passport')(passport); // pass pass
 require('./app/server/controllers/middlewares/socketio')(io); // pass socketio for config
 
 app.set('view engine', 'pug');
-app.set('views', path.join(process.cwd(), '/app/server/views'));
+app.set('views', path.join(__dirname, '/app/server/views'));
 app.locals.basedir = app.get('views'); // allows for pug includes
 
 
@@ -84,8 +84,8 @@ app.use(methodOverride((req, res) => {
 
 app.use(compression());
 app.use(helmet()); // can set up CSP against XSS attacks. 7/10 of its headers implemented by default.
-app.use('/static', express.static(path.join(process.cwd(), '/static')));
-app.use(favicon(path.join(process.cwd(), '/static/img/favicon.ico')));
+app.use('/static', express.static(path.join(__dirname, '/static')));
+app.use(favicon(path.join(__dirname, '/static/img/favicon.ico')));
 
 
 
