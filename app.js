@@ -89,7 +89,7 @@ app.use(favicon(path.join(__dirname, '/static/img/favicon.ico')));
 
 
 
-app.use(morgan('dev')); // log every request to console.
+// app.use(morgan('dev')); // log every request to console.
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // configure the session
