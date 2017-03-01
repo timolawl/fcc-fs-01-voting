@@ -2,12 +2,13 @@
 
 // socket io -- the cdnjs script is in the HTML template above this script file
 const host = 'timolawl-voting.herokuapp.com';
-var socket;
+var socket = io();
+/*
 if (host == location.host) {
   socket = io.connect('https://timolawl-voting.herokuapp.com:5000');
 }
 else socket = io.connect('//localhost:5000');
-
+*/
 function addOption (btnCounter) {
     // need a way of keeping track of the count.
     // either way, I just add to the end of the last count, even if sparse
