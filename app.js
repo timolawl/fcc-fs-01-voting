@@ -2,7 +2,7 @@
 
 // can't use import natively yet as V8 doesn't have support for it yet.
 
-require('dotenv').config(); // loads env vars (don't need in prod)
+//require('dotenv').config(); // loads env vars (don't need in prod)
 
 // built-in requires
 const path = require('path');
@@ -45,7 +45,7 @@ const passport = require('passport');
 
 
 // development requires
-const morgan = require('morgan');
+//const morgan = require('morgan');
 
 
 // custom requires
@@ -54,7 +54,7 @@ const routes = require('./app/server/routes');
 const config = require('./app/server/config');
 // const User = require('./app/server/models/user'); // why is this required?
 
-mongoose.connect(config.dbURL);
+mongoose.connect(config.dbURI);
 mongoose.connection.on('error', () => {
     console.log('Error: Could not connect to MongoDB. Did you forget to run "mongod"?');
 });

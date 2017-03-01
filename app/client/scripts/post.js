@@ -97,7 +97,6 @@ window.onload = function () {
 /****************/    
 
     if (location.pathname.match(/^\/$/)) {
-      console.log('home');
       // populate the page with currently active charts by date.
       socket.emit('list all polls', {});
       
