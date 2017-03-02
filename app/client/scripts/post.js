@@ -101,7 +101,9 @@ window.onload = function () {
         for (let i = 0; i < data.titles.length; i++) {
           let newDiv = document.createElement('div');
           newDiv.className = 'poll__element--text';
-          newDiv.textContent = data.titles[i];
+          let newSpan = document.createElement('span');
+          newSpan.textContent = data.titles[i];
+          newDiv.appendChild(newSpan);
           let newLink = document.createElement('a');
           newLink.className = 'poll__element--link';
           newLink.href = location.href + 'poll/' + data.permalinks[i];
@@ -120,7 +122,9 @@ window.onload = function () {
         for (let i = 0; i < data.titles.length; i++) {
           let newDiv = document.createElement('div');
           newDiv.className = 'poll__element--text';
+          let newSpan = document.createElement('span');
           newDiv.textContent = data.titles[i];
+          newDiv.appendChild(newSpan);
           let newLink = document.createElement('a');
           newLink.className = 'poll__element--link';
           newLink.href = location.protocol + '//' + location.host + '/poll/' + data.permalinks[i];

@@ -27,9 +27,9 @@ const imagemin = require('gulp-imagemin');
 
 // var production = process.env.NODE_ENV === 'production';
 
-gulp.task('browserSync', () => {
+gulp.task('browserSync', ['watch'], () => {
     browserSync.init({
-        proxy: 'localhost:5000', // heroku local -> gulp watch -> localhost:3000
+        proxy: 'localhost:5000', // heroku local -> gulp -> localhost:3000
         ghostMode: true, // sync across all browsers
         port: 3000 // the port that browserSync uses
     });
@@ -99,7 +99,7 @@ gulp.task('image', () => {
         .pipe(gulp.dest('./static/img'));
 });
 
-gulp.task('watch', ['browserSync'], () => {
+gulp.task('watch', ['build'], () => {
     gulp.watch('./app/client/stylesheets/*.scss', ['sass']); // why can't it be '/'?
     gulp.watch('./app/client/scripts/*.js', ['script']); // will reload twice (if not directly modifying the pre and post js files. Once for the module file, and then again since the changes propagating to the pre/post will trigger the task again).
   //  gulp.watch('public/*.html', browserSync.reload);
@@ -107,5 +107,5 @@ gulp.task('watch', ['browserSync'], () => {
   //    gulp.watch('*', browserSync.reload);
 });
 
-gulp.task('default', ['build', 'watch']);
+gulp.task('default', ['browserSync']);
 gulp.task('build', ['sass', 'script']);
