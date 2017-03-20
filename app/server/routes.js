@@ -12,7 +12,7 @@ module.exports = (app, passport) => {
             // join main socket io room (this room is needed as at this level, polls can be added and deleted at will) and any previous room
              res.render('index', { loggedIn: 'true', path: 'index' }); //loggedIn still needed to not display the 'sign up' button
            else res.render('index', { path: 'index' });
-        })
+        });
 
 
     app.route('/signup') // this allows for the question mark path.
@@ -50,9 +50,15 @@ module.exports = (app, passport) => {
 */
     app.route('/createpoll')
         .get(isLoggedIn, (req, res) => {
-            res.render('pollform', { loggedIn: 'true', path: 'createpoll' }); // each option needs to pass through logIn middleware. Using loggedIn for setting the right nav bar..
+            req.flash('createPollMessage', 'Invalid entries. Please try again.');
+            res.render('pollform', { loggedIn: 'true', path: 'createpoll', message: req.flash('createPollMessage') }); // each option needs to pass through logIn middleware. Using loggedIn for setting the right nav bar..
         })
-        .post(controller.createpoll); // eschewing duplication check
+        .post((req, res, next) => {
+          if (req.isAuthenticated()) {
+            return next();
+          }
+          else res.redirect('/');
+        }, controller.createpoll); // eschewing duplication check
   /*
         .post(isUnique, (req, res) => { // check if there is identical?
             nonce = uuid.v4(); // save this to the db, along with the req body.

@@ -7,6 +7,22 @@ const Poll = require('../models/poll');
 
 function controller () {
   this.createpoll = (req, res) => {
+    // server-side validation of input:
+    // test each input against the regex:
+    let re = /^[a-zA-Z0-9\$@#&\*\+\-][a-zA-Z0-9\$@#&%\*\+\'\"_\/, \.?!-]{0,200}$/;
+    if (req.body.options.length > 20 || !re.test(req.body.name)) {
+      res.render('pollform', { loggedIn: 'true', path: 'createpoll', message: req.flash('createPollMessage') });
+      return;
+    }
+    else {
+      let options = req.body.options;
+      if(!options.every(option => re.test(option))) {
+        res.render('pollform', { loggedIn: 'true', path: 'createpoll', message: req.flash('createPollMessage') });
+        return;
+      }
+    }
+
+
     const newPoll = new Poll();
     newPoll._creator = req.user.id;
     // newPoll.dateCreated = Date.now(); // not needed; will default to Date.now() on every save
